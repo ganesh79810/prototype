@@ -4,1030 +4,1051 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ParkSync — City of Riverton</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117;--surface:#171b24;--card:#1e2330;--border:#2a2f3e;
-  --orange:#e8571a;--teal:#0fb8a0;--red:#e05050;--blue:#4a9eff;
-  --green:#2ecc7a;--yellow:#f5b731;
-  --text:#e8e4dc;--muted:#6b7494;--dim:#3a3f52;
-}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+:root{
+  --bg:#1C2333;
+  --surface:#242D42;
+  --card:#2D384F;
+  --card2:#35415A;
+  --border:#3D4D6A;
+  --border2:#4A5E80;
+  --navy:#0D1526;
+  --or:#FF6B2B;
+  --or2:#FF9060;
+  --gr:#00CC80;
+  --gr2:#00FF99;
+  --re:#FF3D5A;
+  --re2:#FF7080;
+  --bl:#4A9EFF;
+  --bl2:#80BFFF;
+  --te:#00C8C8;
+  --yw:#FFD040;
+  --txt:#F0F4FF;
+  --txt2:#C8D4F0;
+  --mut:#8A9CC0;
+  --dim:#3A4A65;
+  --r:8px;
+}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--or);border-radius:3px}
 
-/* TOPBAR */
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);height:52px;display:flex;align-items:center;padding:0 20px;gap:16px;position:sticky;top:0;z-index:100}
-.logo{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;color:#fff;letter-spacing:-0.5px}
-.logo span{color:var(--orange)}
-.status-pill{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(14,184,160,0.15);color:var(--teal);border:1px solid rgba(14,184,160,0.3);letter-spacing:0.5px}
-.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-.user-chip{font-size:12px;color:var(--muted);background:var(--card);padding:4px 12px;border:1px solid var(--border);border-radius:3px}
+/* ── TOP BAR ── */
+.topbar{
+  height:58px;background:var(--navy);
+  border-bottom:2px solid var(--or);
+  display:flex;align-items:center;padding:0;
+  position:sticky;top:0;z-index:300;
+}
+.topbar-brand{
+  width:210px;flex-shrink:0;
+  display:flex;align-items:center;gap:10px;
+  padding:0 18px;height:100%;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+.logo{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.5px}
+.logo span{color:var(--or)}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--gr);box-shadow:0 0 10px var(--gr);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* LAYOUT */
-.layout{display:flex;flex:1}
-.sidebar{width:200px;background:var(--surface);border-right:1px solid var(--border);padding:16px 0;flex-shrink:0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
-.sidebar-section{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:12px 16px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-left:3px solid transparent;transition:all 0.15s}
-.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text)}
-.nav-item.active{color:var(--orange);border-left-color:var(--orange);background:rgba(232,87,26,0.07)}
-.nav-icon{width:16px;text-align:center;font-size:14px}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:8px}
-.nav-badge.blue{background:var(--blue)}
-.nav-badge.green{background:var(--green)}
+.topbar-mid{flex:1;display:flex;align-items:center;padding:0 20px;gap:14px}
+.mode-wrap{display:flex;background:rgba(255,255,255,.07);border-radius:100px;padding:3px;border:1px solid var(--border)}
+.mbtn{
+  padding:6px 18px;border-radius:100px;font-size:11px;font-weight:700;
+  cursor:pointer;border:none;font-family:'Inter',sans-serif;
+  transition:all .25s;letter-spacing:.4px;color:var(--mut);background:transparent;
+}
+.mbtn:hover{color:var(--txt2)}
+.mbtn.batch{background:var(--re);color:#fff;box-shadow:0 2px 10px rgba(255,61,90,.4)}
+.mbtn.live{background:var(--gr);color:#000;box-shadow:0 2px 10px rgba(0,204,128,.4)}
 
-.main{flex:1;padding:24px;overflow-y:auto}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;padding:0 18px}
+.clk-txt{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--mut)}
+.lat-badge{font-size:10px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:.3px;transition:all .5s}
+.lat-bad{background:rgba(255,61,90,.2);color:#FF8090;border:1px solid rgba(255,61,90,.4)}
+.lat-good{background:rgba(0,204,128,.2);color:#00FF99;border:1px solid rgba(0,204,128,.4)}
+.usr{font-size:12px;font-weight:500;color:var(--txt2);background:rgba(255,255,255,.08);border:1px solid var(--border);padding:5px 12px;border-radius:100px}
 
-/* PAGE HEADER */
-.page-header{margin-bottom:24px}
-.page-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
-.page-sub{font-size:13px;color:var(--muted)}
-.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:12px;font-family:'IBM Plex Mono',monospace}
-.breadcrumb span{color:var(--orange)}
+/* ── LAYOUT ── */
+.wrap{display:flex;height:calc(100vh - 58px)}
 
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.stat-box{background:var(--card);border:1px solid var(--border);padding:16px;border-top:2px solid var(--orange)}
-.stat-box.teal{border-top-color:var(--teal)}
-.stat-box.red{border-top-color:var(--red)}
-.stat-box.green{border-top-color:var(--green)}
-.stat-num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;color:#fff;line-height:1}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-top:6px}
-.stat-delta{font-size:11px;color:var(--teal);margin-top:3px}
-.stat-delta.neg{color:var(--red)}
+/* ── SIDEBAR ── */
+.sidebar{
+  width:210px;background:var(--surface);flex-shrink:0;
+  display:flex;flex-direction:column;
+  border-right:1px solid var(--border);
+}
+.sb-top{flex:1;padding:10px 0;overflow-y:auto}
+.ng{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mut);padding:12px 16px 4px}
+.ni{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;font-size:13px;font-weight:500;
+  color:var(--txt2);cursor:pointer;
+  border-left:3px solid transparent;transition:all .15s;
+}
+.ni:hover{background:rgba(255,255,255,.05);color:#fff}
+.ni.active{color:#fff;border-left-color:var(--or);background:rgba(255,107,43,.12)}
+.nic{font-size:14px;width:18px;text-align:center}
+.nbadge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px}
+.nb-or{background:var(--or);color:#fff}
+.nb-re{background:var(--re);color:#fff}
+.nb-gr{background:var(--gr);color:#000}
+.sb-btm{padding:14px;border-top:1px solid var(--border)}
+.ecr-box{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:14px}
+.ecr-lbl{font-size:9px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:5px;font-weight:600}
+.ecr-num{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;transition:all .5s;line-height:1}
+.ecr-sub{font-size:10px;color:var(--mut);margin-top:4px}
 
-/* TABLE */
-.table-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-.table-title{font-size:14px;font-weight:600;color:#fff}
-.filter-bar{display:flex;gap:8px;flex-wrap:wrap}
-.filter-select{background:var(--card);border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;border-radius:2px;cursor:pointer}
-.search-input{background:var(--card);border:1px solid var(--border);color:var(--text);font-size:12px;padding:6px 10px;font-family:'IBM Plex Sans',sans-serif;border-radius:2px;width:180px}
-.search-input::placeholder{color:var(--muted)}
-
-.data-table{width:100%;border-collapse:collapse;font-size:12px}
-.data-table th{background:var(--dim);color:var(--muted);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.7px;padding:10px 12px;text-align:left;cursor:pointer;user-select:none;white-space:nowrap}
-.data-table th:hover{color:var(--text)}
-.data-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
-.data-table tr:hover td{background:rgba(255,255,255,0.02)}
-.table-wrap{background:var(--card);border:1px solid var(--border);overflow-x:auto}
-
-/* BADGES */
-.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;font-family:'IBM Plex Mono',monospace}
-.badge-approved{background:rgba(46,204,122,0.15);color:var(--green);border:1px solid rgba(46,204,122,0.3)}
-.badge-pending{background:rgba(245,183,49,0.15);color:var(--yellow);border:1px solid rgba(245,183,49,0.3)}
-.badge-expired{background:rgba(106,116,148,0.2);color:var(--muted);border:1px solid var(--dim)}
-.badge-yes{background:rgba(224,80,80,0.15);color:var(--red);border:1px solid rgba(224,80,80,0.3)}
-.badge-no{background:rgba(46,204,122,0.1);color:var(--green);border:1px solid rgba(46,204,122,0.2)}
-.badge-dismissed{background:rgba(14,184,160,0.15);color:var(--teal);border:1px solid rgba(14,184,160,0.3)}
-.badge-upheld{background:rgba(224,80,80,0.15);color:var(--red);border:1px solid rgba(224,80,80,0.3)}
-.badge-pending-out{background:rgba(245,183,49,0.15);color:var(--yellow);border:1px solid rgba(245,183,49,0.3)}
-.badge-paid{background:rgba(46,204,122,0.1);color:var(--green);border:1px solid rgba(46,204,122,0.2)}
-.badge-unpaid{background:rgba(224,80,80,0.1);color:var(--red);border:1px solid rgba(224,80,80,0.2)}
-.lat-pill{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;padding:2px 7px;border-radius:2px}
-.lat-green{background:rgba(46,204,122,0.15);color:var(--green)}
-.lat-amber{background:rgba(245,183,49,0.15);color:var(--yellow)}
-.lat-red{background:rgba(224,80,80,0.15);color:var(--red)}
-
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;font-size:12px;font-weight:600;border:none;cursor:pointer;border-radius:2px;font-family:'IBM Plex Sans',sans-serif;transition:all 0.15s;white-space:nowrap}
-.btn-primary{background:var(--orange);color:#fff}
-.btn-primary:hover{background:#d04a10}
-.btn-teal{background:var(--teal);color:#000}
-.btn-teal:hover{background:#0da090}
-.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
-.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
-.btn-red{background:rgba(224,80,80,0.15);color:var(--red);border:1px solid rgba(224,80,80,0.3)}
-.btn-red:hover{background:rgba(224,80,80,0.25)}
-.btn-sm{padding:4px 10px;font-size:11px}
-
-/* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:space-between;padding:12px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal{background:var(--surface);border:1px solid var(--border);width:100%;max-width:520px;max-height:85vh;overflow-y:auto}
-.modal-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.modal-title{font-size:15px;font-weight:600;color:#fff}
-.modal-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;padding:4px}
-.modal-close:hover{color:var(--text)}
-.modal-body{padding:20px}
-.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
-.form-row{margin-bottom:14px}
-.form-label{font-size:11px;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;display:block}
-.form-input,.form-select,.form-textarea{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:13px;padding:9px 12px;font-family:'IBM Plex Sans',sans-serif;border-radius:2px}
-.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--orange)}
-.form-textarea{resize:vertical;min-height:80px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
-.detail-row:last-child{border-bottom:none}
-.detail-label{color:var(--muted)}
-.detail-val{color:#fff;font-weight:500;text-align:right}
-
-/* TOAST */
-.toast-container{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--surface);border:1px solid var(--border);padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;min-width:260px;animation:slideIn 0.3s ease;border-left:3px solid var(--green)}
-.toast.error{border-left-color:var(--red)}
-.toast.info{border-left-color:var(--blue)}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-
-/* EMPTY STATE */
-.empty-state{padding:48px;text-align:center;color:var(--muted)}
-.empty-icon{font-size:36px;margin-bottom:12px}
-.empty-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
-
-/* SECTION TAB */
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;padding:22px;background:var(--bg)}
 .page{display:none}.page.active{display:block}
 
-/* ANALYTICS */
-.ana-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.ana-card{background:var(--card);border:1px solid var(--border);padding:16px}
-.ana-card-title{font-size:12px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.6px}
-.bar-chart{display:flex;flex-direction:column;gap:8px}
-.bar-row{display:flex;align-items:center;gap:10px;font-size:11px}
-.bar-label{width:90px;color:var(--muted);text-align:right;flex-shrink:0}
-.bar-track{flex:1;background:var(--dim);height:14px;border-radius:1px;overflow:hidden}
-.bar-fill{height:100%;border-radius:1px;transition:width 0.6s ease}
-.bar-val{width:40px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:10px}
-.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.metric-mini{background:var(--dim);padding:12px;text-align:center}
-.metric-mini-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:var(--orange)}
-.metric-mini-label{font-size:10px;color:var(--muted);margin-top:3px}
+/* ── PAGE HEADER ── */
+.ph{margin-bottom:22px}
+.pt{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
+.ps{font-size:13px;color:var(--txt2);font-weight:400}
 
-/* SYNC STATUS */
-.sync-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.sync-card{background:var(--card);border:1px solid var(--border);padding:14px}
-.sync-zone{font-size:11px;font-weight:600;color:var(--text);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px}
-.sync-bar-wrap{background:var(--dim);height:6px;border-radius:3px;overflow:hidden;margin-bottom:6px}
-.sync-bar{height:100%;border-radius:3px}
-.sync-info{font-size:10px;color:var(--muted);display:flex;justify-content:space-between}
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:7px;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .18s;white-space:nowrap;font-family:'Inter',sans-serif}
+.btn-or{background:var(--or);color:#fff}.btn-or:hover{background:#e85c1a;transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,107,43,.4)}
+.btn-gr{background:var(--gr);color:#000}.btn-gr:hover{background:#00ff99}
+.btn-gl{background:rgba(255,255,255,.1);color:var(--txt2);border:1px solid var(--border2)}.btn-gl:hover{border-color:var(--or);color:var(--or)}
+.btn-re{background:rgba(255,61,90,.15);color:var(--re);border:1px solid rgba(255,61,90,.3)}.btn-re:hover{background:rgba(255,61,90,.25)}
+.btn-bl{background:var(--bl);color:#fff}.btn-bl:hover{background:#3a8eee;transform:translateY(-1px)}
+.btn-sm{padding:6px 13px;font-size:11px}
 
-/* HIDDEN */
-.hidden{display:none!important}
+/* ── BADGES ── */
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace}
+.bg-gr{background:rgba(0,204,128,.15);color:#00FF99;border:1px solid rgba(0,204,128,.3)}
+.bg-re{background:rgba(255,61,90,.15);color:#FF8090;border:1px solid rgba(255,61,90,.3)}
+.bg-or{background:rgba(255,107,43,.15);color:#FF9060;border:1px solid rgba(255,107,43,.3)}
+.bg-bl{background:rgba(74,158,255,.15);color:#80BFFF;border:1px solid rgba(74,158,255,.3)}
+.bg-te{background:rgba(0,200,200,.15);color:#00E8E8;border:1px solid rgba(0,200,200,.3)}
+.bg-yw{background:rgba(255,208,64,.15);color:#FFE060;border:1px solid rgba(255,208,64,.3)}
+
+/* ── STAT CARDS ── */
+.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid transparent}
+.scard.or{border-top-color:var(--or)}.scard.re{border-top-color:var(--re)}.scard.te{border-top-color:var(--te)}.scard.gr{border-top-color:var(--gr)}
+.sv{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:#fff;line-height:1;transition:all .4s}
+.sl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-top:8px;font-weight:600}
+.sd{font-size:11px;margin-top:4px;font-weight:500}
+.sd.neg{color:var(--re2)}.sd.pos{color:var(--gr2)}
+
+/* ── PROBLEM PAGE ── */
+.hero{background:linear-gradient(135deg,var(--navy),#1a2540);border:1px solid var(--border2);border-radius:var(--r);padding:24px;margin-bottom:20px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-100px;top:-100px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,61,90,.15),transparent 70%);pointer-events:none}
+.hero-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(255,61,90,.2);color:#FF8090;padding:4px 12px;border-radius:100px;margin-bottom:12px;border:1px solid rgba(255,61,90,.3)}
+.hero-title{font-size:20px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3}
+.hero-desc{font-size:13px;color:var(--txt2);line-height:1.7;max-width:580px;font-weight:400}
+.hero-stats{display:flex;gap:28px;margin-top:20px;flex-wrap:wrap}
+.hs-val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#FF8090;line-height:1}
+.hs-lbl{font-size:10px;color:var(--mut);margin-top:4px;font-weight:500}
+
+/* ── SIM GRID ── */
+.sim-grid{display:grid;grid-template-columns:1fr 90px 1fr;gap:14px;margin-bottom:18px;align-items:stretch}
+.sim-panel{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:18px}
+.sim-ptitle{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);margin-bottom:14px}
+.sim-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.sarrow{font-size:24px;transition:all .5s;color:var(--mut);display:block}
+.sarrow.live{color:var(--gr);animation:arrowPulse .8s ease-in-out infinite alternate}
+@keyframes arrowPulse{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
+.sarrow-lbl{font-size:9px;color:var(--mut);text-align:center;font-weight:600;line-height:1.6}
+
+.permit-row{display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px 12px;font-size:12px;margin-bottom:6px}
+.pr-plate{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gr)}
+.pr-info{color:var(--mut);font-size:11px}
+.batch-note{background:rgba(255,107,43,.12);border:1px solid rgba(255,107,43,.25);border-radius:6px;padding:9px 12px;font-size:11px;font-weight:600;color:var(--or);margin-top:12px}
+
+.dev-screen{background:var(--navy);border-radius:8px;padding:14px;margin-top:12px}
+.dev-hdr{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.dev-dot{width:7px;height:7px;border-radius:50%}
+.dev-lbl{font-size:11px;font-weight:600;color:var(--mut)}
+.dev-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:12px}
+.dev-row:last-child{border-bottom:none}
+.dev-plate{font-family:'JetBrains Mono',monospace;font-weight:600;color:#fff}
+.st-bad{color:#FF6070;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700}
+.st-good{color:#00FF99;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700}
+.dev-warn{margin-top:10px;border-radius:6px;padding:9px 12px;font-size:11px;font-weight:600}
+.dev-warn.bad{background:rgba(255,61,90,.15);border:1px solid rgba(255,61,90,.25);color:#FF8090}
+.dev-warn.good{background:rgba(0,204,128,.12);border:1px solid rgba(0,204,128,.25);color:#00FF99}
+
+/* ── EVENT LOG ── */
+.evlog{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:18px}
+.evlog-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.evlog-body{background:var(--navy);border-radius:7px;padding:12px;min-height:90px;max-height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:5px}
+.ev{display:flex;gap:10px;font-size:11px;font-weight:400}
+.ev-t{color:rgba(255,255,255,.3);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.ev-m{flex:1;line-height:1.5}
+.c-gr{color:#00FF99}.c-re{color:#FF7080}.c-or{color:#FFA060}.c-te{color:#60FFFF}.c-yw{color:#FFE060}.c-bl{color:#90C8FF}.c-wh{color:rgba(255,255,255,.6)}
+
+/* ── BEFORE/AFTER ── */
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ba-card{border-radius:var(--r);padding:20px;border:1px solid}
+.ba-before{background:rgba(255,61,90,.06);border-color:rgba(255,61,90,.2)}
+.ba-after{background:rgba(0,204,128,.06);border-color:rgba(0,204,128,.2)}
+.ba-title{font-size:13px;font-weight:700;margin-bottom:12px}
+.ba-before .ba-title{color:#FF8090}.ba-after .ba-title{color:#00FF99}
+.ba-text{font-size:13px;color:var(--txt2);line-height:2.1;font-weight:400}
+
+/* ── ZONE TABS ── */
+.ztabs{display:flex;gap:0;margin-bottom:16px;background:var(--surface);border-radius:var(--r);padding:4px;border:1px solid var(--border)}
+.ztab{flex:1;text-align:center;padding:8px 10px;font-size:12px;font-weight:600;color:var(--mut);cursor:pointer;border-radius:6px;border:none;background:transparent;font-family:'Inter',sans-serif;transition:all .2s}
+.ztab:hover{color:var(--txt2)}
+.ztab.active{background:var(--or);color:#fff;box-shadow:0 2px 10px rgba(255,107,43,.35)}
+
+/* ── PARKING MAP ── */
+.map-wrap{display:grid;grid-template-columns:1fr 300px;gap:16px;align-items:start}
+.map-panel{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:20px}
+.zone-sec{margin-bottom:20px}
+.zone-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.zone-nm{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--mut)}
+.zone-cnt{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#fff}
+.slots-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.slots-grid.h4{grid-template-columns:repeat(4,1fr)}
+.slot{aspect-ratio:3/4;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;border:1.5px solid transparent}
+.slot.avail{background:rgba(0,204,128,.1);border-color:rgba(0,204,128,.35)}
+.slot.avail:hover{background:rgba(0,204,128,.22);border-color:var(--gr);transform:scale(1.1);z-index:5;box-shadow:0 4px 14px rgba(0,204,128,.3)}
+.slot.occ{background:rgba(255,61,90,.1);border-color:rgba(255,61,90,.3);cursor:not-allowed}
+.slot.occ:hover{transform:none;box-shadow:none}
+.slot.sel{background:rgba(74,158,255,.18);border-color:var(--bl);border-width:2px;transform:scale(1.08);z-index:5;box-shadow:0 0 0 3px rgba(74,158,255,.2)}
+.slot.mine{background:rgba(255,107,43,.15);border-color:rgba(255,107,43,.5)}
+.slot.mine:hover{transform:none}
+.slot-id{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;margin-bottom:2px;line-height:1}
+.slot.avail .slot-id{color:var(--gr)}.slot.occ .slot-id{color:var(--re)}.slot.sel .slot-id{color:var(--bl)}.slot.mine .slot-id{color:var(--or)}
+.slot-ico{font-size:12px;line-height:1}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--mut);font-weight:500}
+.leg-dot{width:10px;height:10px;border-radius:2px}
+
+/* ── BOOKING FORM ── */
+.bk-form{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);padding:20px}
+.bk-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:16px}
+.sel-card{background:rgba(74,158,255,.12);border:2px solid var(--bl);border-radius:var(--r);padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sel-num{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--bl)}
+.sel-sub{font-size:12px;color:var(--mut);margin-top:2px;font-weight:500}
+.no-slot{background:var(--surface);border:2px dashed var(--border2);border-radius:var(--r);padding:16px;text-align:center;font-size:13px;color:var(--mut);margin-bottom:16px;font-weight:500}
+.ff{margin-bottom:13px}
+.flbl{font-size:10px;font-weight:700;color:var(--txt2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;display:block}
+.fi,.fs{width:100%;background:var(--surface);border:1.5px solid var(--border2);color:#fff;font-size:13px;padding:10px 12px;font-family:'Inter',sans-serif;border-radius:7px;transition:border-color .2s;font-weight:500}
+.fi:focus,.fs:focus{outline:none;border-color:var(--or)}
+.fi::placeholder{color:var(--mut)}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.price-box{background:var(--surface);border-radius:7px;padding:14px;margin-bottom:14px;border:1px solid var(--border)}
+.prow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;color:var(--txt2)}
+.prow span:first-child{color:var(--mut)}
+.prow.total{border-top:1px solid var(--border2);padding-top:10px;margin-top:6px;margin-bottom:0;font-size:14px}
+.prow.total span:first-child{font-weight:700;color:var(--txt2)}
+.price-amt{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--or);font-size:17px}
+
+/* ── DASHBOARD ── */
+.zone-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.zone-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;border-left:4px solid}
+.zone-card.gr{border-left-color:var(--gr)}.zone-card.te{border-left-color:var(--te)}.zone-card.or{border-left-color:var(--or)}.zone-card.bl{border-left-color:var(--bl)}
+.zc-lbl{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-weight:600}
+.zc-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:#fff}
+.zc-sub{font-size:10px;color:var(--mut);margin-top:3px}
+
+/* ── SESSION BANNER ── */
+.sess-banner{background:rgba(255,107,43,.1);border:1.5px solid rgba(255,107,43,.3);border-radius:var(--r);padding:16px;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.sess-timer{font-family:'JetBrains Mono',monospace;font-size:34px;font-weight:700;color:var(--or);line-height:1}
+.sess-slot-lbl{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.sess-veh-lbl{font-size:12px;color:var(--mut);font-weight:500}
+
+/* ── TABLE ── */
+.tbl-wrap{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden}
+.ptbl{width:100%;border-collapse:collapse;font-size:13px}
+.ptbl th{background:var(--surface);color:var(--mut);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.ptbl td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--txt2);vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tbody tr:hover td{background:rgba(255,255,255,.03)}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.mhdr{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--card)}
+.mttl{font-size:16px;font-weight:700;color:#fff}
+.mclose{background:none;border:none;color:var(--mut);font-size:20px;cursor:pointer;line-height:1;padding:4px}
+.mclose:hover{color:#fff}
+.mbdy{padding:22px}
+.mftr{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:var(--card)}
+.crow{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.crow:last-child{border-bottom:none}
+.clbl{color:var(--mut);font-weight:500}
+.cval{font-weight:700;font-family:'JetBrains Mono',monospace;color:#fff}
+.slot-confirm{background:rgba(74,158,255,.12);border:2px solid var(--bl);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:18px}
+.sc-num{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:700;color:var(--bl)}
+.sc-sub{font-size:12px;color:var(--mut);margin-top:3px;font-weight:500}
+
+/* ── SUCCESS ── */
+.s-ring{width:78px;height:78px;border-radius:50%;background:rgba(0,204,128,.15);border:2px solid var(--gr);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px}
+.s-title{text-align:center;font-size:20px;font-weight:800;color:#fff;margin-bottom:4px}
+.s-sub{text-align:center;font-size:13px;color:var(--txt2);margin-bottom:20px;font-weight:400}
+.s-det{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:14px;border:1px solid var(--border)}
+.sdr{display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)}
+.sdr:last-child{border-bottom:none}
+.sdl{color:var(--mut);font-weight:500}.sdv{font-weight:700;font-family:'JetBrains Mono',monospace;color:#fff}
+.tim-box{background:var(--navy);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:16px}
+.tim-num{font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:700;color:var(--or)}
+.tim-lbl{font-size:10px;color:var(--mut);margin-top:4px;text-transform:uppercase;letter-spacing:.6px}
+.tim-bar-bg{background:rgba(255,255,255,.1);height:5px;border-radius:3px;margin-top:10px;overflow:hidden}
+.tim-bar-fill{height:100%;background:linear-gradient(90deg,var(--or),var(--or2));border-radius:3px;transition:width 1s linear}
+
+/* ── ACTIVE SESSION ── */
+.act-hero{background:linear-gradient(135deg,var(--navy),#1a2540);border:1px solid var(--border2);border-radius:12px;padding:28px;text-align:center;margin-bottom:20px}
+.act-timer{font-family:'JetBrains Mono',monospace;font-size:64px;font-weight:700;color:var(--or);line-height:1;margin-bottom:8px}
+.act-bar-bg{background:rgba(255,255,255,.1);height:7px;border-radius:4px;overflow:hidden;margin-bottom:10px}
+.act-bar-fill{height:100%;background:linear-gradient(90deg,var(--or),var(--or2));border-radius:4px;transition:width 1s linear}
+.act-sub{font-size:12px;color:var(--mut);font-weight:500}
+.act-info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.ai{background:rgba(255,255,255,.06);border-radius:8px;padding:12px;text-align:center}
+.ai-v{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:var(--or)}
+.ai-l{font-size:9px;color:var(--mut);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ── HISTORY ── */
+.hitem{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:border-color .2s}
+.hitem:hover{border-color:var(--or)}
+.hico{width:44px;height:44px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.hslot{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.hdet{font-size:11px;color:var(--mut);font-weight:400}
+
+/* ── DISPUTES ── */
+.disp-note{background:rgba(255,107,43,.1);border:1px solid rgba(255,107,43,.25);border-radius:var(--r);padding:14px 18px;margin-bottom:16px;font-size:13px;font-weight:400;color:var(--txt2)}
+
+/* ── FULL ALERT ── */
+.full-alert{background:rgba(255,61,90,.08);border:1.5px solid rgba(255,61,90,.3);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:16px}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--surface);border:1px solid var(--border2);padding:12px 16px;font-size:13px;display:flex;align-items:center;gap:10px;min-width:260px;border-radius:8px;font-family:'Inter',sans-serif;color:var(--txt);font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.toast.ok{border-left:3px solid var(--gr)}
+.toast.err{border-left:3px solid var(--re)}
+.toast.info{border-left:3px solid var(--bl)}
+
+.hid{display:none!important}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
+<!-- TOP BAR -->
 <div class="topbar">
-  <div class="logo">Park<span>Sync</span></div>
-  <div class="status-pill">🟢 SYSTEM ONLINE</div>
+  <div class="topbar-brand">
+    <div class="live-dot"></div>
+    <div class="logo">Park<span>Sync</span></div>
+  </div>
+  <div class="topbar-mid">
+    <span style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mut)">System Mode:</span>
+    <div class="mode-wrap">
+      <button class="mbtn batch" id="btn-batch" onclick="setMode('batch')">⚠ Batch Upload</button>
+      <button class="mbtn" id="btn-live" onclick="setMode('live')">⚡ ParkSync Live</button>
+    </div>
+  </div>
   <div class="topbar-right">
-    <div class="user-chip">Admin — City of Riverton</div>
+    <span class="clk-txt" id="clk"></span>
+    <div class="lat-badge lat-bad" id="lat-badge">101.4 min delay</div>
+    <div class="usr">Admin — City of Riverton</div>
   </div>
 </div>
 
-<div class="layout">
-  <!-- SIDEBAR -->
-  <nav class="sidebar">
-    <div class="sidebar-section">Main</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)">
-      <span class="nav-icon">📊</span> Dashboard
+<div class="wrap">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-top">
+    <div class="ng">Overview</div>
+    <div class="ni active" data-pg="problem"><span class="nic">🔍</span>Problem Demo</div>
+    <div class="ni" data-pg="dashboard"><span class="nic">📊</span>Dashboard</div>
+    <div class="ng">Parking</div>
+    <div class="ni" data-pg="booking"><span class="nic">🅿️</span>Book a Slot<span class="nbadge nb-or" id="nav-avail">22</span></div>
+    <div class="ni" data-pg="active"><span class="nic">⏱</span>Active Session<span class="nbadge nb-gr hid" id="nav-act">1</span></div>
+    <div class="ni" data-pg="history"><span class="nic">📋</span>Booking History</div>
+    <div class="ng">Management</div>
+    <div class="ni" data-pg="permits"><span class="nic">📝</span>Permits<span class="nbadge nb-re">1</span></div>
+    <div class="ni" data-pg="disputes"><span class="nic">⚖️</span>Disputes<span class="nbadge nb-re" id="nav-disp">3</span></div>
+  </div>
+  <div class="sb-btm">
+    <div class="ecr-box">
+      <div class="ecr-lbl">Error Citation Rate</div>
+      <div class="ecr-num" id="ecr-num" style="color:var(--re2)">35.9%</div>
+      <div class="ecr-sub" id="ecr-sub">Target: below 5%</div>
     </div>
-    <div class="sidebar-section">Permits</div>
-    <div class="nav-item" onclick="showPage('permits',this)">
-      <span class="nav-icon">📋</span> All Permits
-      <span class="nav-badge green" id="pending-count">12</span>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- PROBLEM PAGE -->
+<div id="page-problem" class="page active">
+  <div class="ph">
+    <div class="pt">🔍 Problem Demo — Why ParkSync Exists</div>
+    <div class="ps">Toggle the mode above to see batch upload creating wrongful citations — then watch ParkSync fix it in real time</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-tag">Root Cause Identified</div>
+    <div class="hero-title">The 2–4 Hour Blind Spot Causing 431 Wrongful Citations Per Year</div>
+    <div class="hero-desc">When a resident gets a permit approved, that data waits in a queue for up to 4 hours before reaching officer devices. Officers act on stale data, issue wrongful tickets, and residents must file disputes that staff spend 20 minutes resolving — 547 times per year.</div>
+    <div class="hero-stats">
+      <div><div class="hs-val">431</div><div class="hs-lbl">Wrongful citations / yr</div></div>
+      <div><div class="hs-val">101.4 min</div><div class="hs-lbl">Avg device delay</div></div>
+      <div><div class="hs-val">547</div><div class="hs-lbl">Disputes filed / yr</div></div>
+      <div><div class="hs-val">$0</div><div class="hs-lbl">Cost to fix</div></div>
     </div>
-    <div class="nav-item" onclick="showPage('new-permit',this)">
-      <span class="nav-icon">➕</span> New Application
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div style="font-size:15px;font-weight:700;color:#fff">Live System Simulation</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gl btn-sm" onclick="simApprove()">📋 Approve New Permit</button>
+      <button class="btn btn-or btn-sm" onclick="simOfficer()">👮 Officer Checks Plate</button>
+      <button class="btn btn-gl btn-sm" onclick="clearLog()">Clear</button>
     </div>
-    <div class="sidebar-section">Enforcement</div>
-    <div class="nav-item" onclick="showPage('citations',this)">
-      <span class="nav-icon">🎫</span> Citations
-      <span class="nav-badge" id="err-count">43</span>
+  </div>
+
+  <div class="sim-grid">
+    <div class="sim-panel">
+      <div class="sim-ptitle">🏛 Permit Office Database</div>
+      <div style="font-size:12px;font-weight:500;color:var(--txt2);margin-bottom:10px">Recently approved:</div>
+      <div id="permit-list">
+        <div class="permit-row"><span class="pr-plate">RV-2841</span><span class="pr-info">Zone A · 09:02</span></div>
+        <div class="permit-row"><span class="pr-plate">RV-5519</span><span class="pr-info">Zone B · 10:17</span></div>
+      </div>
+      <div class="batch-note" id="batch-note">📤 Next batch upload in <strong id="bc">47</strong> minutes</div>
     </div>
-    <div class="nav-item" onclick="showPage('disputes',this)">
-      <span class="nav-icon">⚖️</span> Disputes
-      <span class="nav-badge blue" id="open-disputes">18</span>
+    <div class="sim-mid">
+      <div style="font-size:9px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;text-align:center">Data Flow</div>
+      <span class="sarrow" id="sarrow">→</span>
+      <div class="sarrow-lbl" id="sarrow-lbl">CSV batch<br>2–4 hrs</div>
     </div>
-    <div class="sidebar-section">System</div>
-    <div class="nav-item" onclick="showPage('sync',this)">
-      <span class="nav-icon">⚡</span> Sync Status
+    <div class="sim-panel">
+      <div class="sim-ptitle">📱 Officer Device <span style="font-size:10px;font-weight:500" id="sync-age">(Last sync: 47 min ago)</span></div>
+      <div class="dev-screen">
+        <div class="dev-hdr">
+          <div class="dev-dot" style="background:var(--re)" id="dev-dot"></div>
+          <span class="dev-lbl" id="dev-lbl">Stale data — batch mode</span>
+        </div>
+        <div class="dev-row"><span class="dev-plate">RV-2841</span><span class="st-bad" id="d2841">✗ NOT VISIBLE</span></div>
+        <div class="dev-row"><span class="dev-plate">RV-5519</span><span class="st-bad" id="d5519">✗ NOT VISIBLE</span></div>
+        <div class="dev-row"><span class="dev-plate">RV-1193</span><span class="st-good">✓ Zone A</span></div>
+      </div>
+      <div class="dev-warn bad" id="dev-warn">⚠ RV-2841 appears unpermitted — officer will issue citation</div>
     </div>
-    <div class="nav-item" onclick="showPage('analytics',this)">
-      <span class="nav-icon">📈</span> Analytics
+  </div>
+
+  <div class="evlog">
+    <div class="evlog-title"><span style="width:8px;height:8px;border-radius:50%;background:var(--gr);display:inline-block;box-shadow:0 0 6px var(--gr)"></span>System Event Log</div>
+    <div class="evlog-body" id="evlog">
+      <div class="ev"><span class="ev-t">09:02</span><span class="ev-m c-gr">✓ Permit approved for RV-2841 — saved to database</span></div>
+      <div class="ev"><span class="ev-t">09:02</span><span class="ev-m c-yw">⏳ Batch mode: queued — officers won't see for 47 min</span></div>
+      <div class="ev"><span class="ev-t">10:17</span><span class="ev-m c-gr">✓ Permit approved for RV-5519 — saved to database</span></div>
+      <div class="ev"><span class="ev-t">10:17</span><span class="ev-m c-yw">⏳ Batch mode: queued — officers won't see for 47 min</span></div>
     </div>
-  </nav>
+  </div>
 
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- DASHBOARD PAGE -->
-    <div id="page-dashboard" class="page active">
-      <div class="breadcrumb">ParkSync / <span>Dashboard</span></div>
-      <div class="page-header">
-        <div class="page-title">Operations Dashboard</div>
-        <div class="page-sub">City of Riverton — Parking Permit & Enforcement</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-box teal">
-          <div class="stat-num" id="dash-approved">789</div>
-          <div class="stat-label">Active Permits</div>
-          <div class="stat-delta">↑ 12 this week</div>
-        </div>
-        <div class="stat-box red">
-          <div class="stat-num" id="dash-ecr">35.9%</div>
-          <div class="stat-label">Error Citation Rate</div>
-          <div class="stat-delta neg">Target: below 5%</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num" id="dash-latency">101.4</div>
-          <div class="stat-label">Avg Sync Latency (min)</div>
-          <div class="stat-delta neg">Target: below 2 min</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num" id="dash-disputes">18</div>
-          <div class="stat-label">Open Disputes</div>
-          <div class="stat-delta neg">59.8% dismissal rate</div>
-        </div>
-      </div>
-
-      <!-- Sync status mini -->
-      <div class="table-header" style="margin-bottom:10px">
-        <div class="table-title">Device Sync Status — All Zones</div>
-        <button class="btn btn-teal btn-sm" onclick="simulateSync()">⚡ Push Real-Time Sync</button>
-      </div>
-      <div class="sync-grid" id="sync-mini">
-        <div class="sync-card">
-          <div class="sync-zone">🏙 Downtown</div>
-          <div class="sync-bar-wrap"><div class="sync-bar" id="sb-dt" style="width:28%;background:var(--red)"></div></div>
-          <div class="sync-info"><span id="si-dt-t">104 min delay</span><span id="si-dt-s" style="color:var(--red)">STALE</span></div>
-        </div>
-        <div class="sync-card">
-          <div class="sync-zone">🏘 Residential</div>
-          <div class="sync-bar-wrap"><div class="sync-bar" id="sb-rs" style="width:32%;background:var(--red)"></div></div>
-          <div class="sync-info"><span id="si-rs-t">99 min delay</span><span id="si-rs-s" style="color:var(--red)">STALE</span></div>
-        </div>
-        <div class="sync-card">
-          <div class="sync-zone">🏪 Commercial</div>
-          <div class="sync-bar-wrap"><div class="sync-bar" id="sb-cm" style="width:25%;background:var(--yellow)"></div></div>
-          <div class="sync-info"><span id="si-cm-t">108 min delay</span><span id="si-cm-s" style="color:var(--yellow)">DELAYED</span></div>
-        </div>
-        <div class="sync-card">
-          <div class="sync-zone">🎓 University</div>
-          <div class="sync-bar-wrap"><div class="sync-bar" id="sb-un" style="width:20%;background:var(--red)"></div></div>
-          <div class="sync-info"><span id="si-un-t">95 min delay</span><span id="si-un-s" style="color:var(--red)">STALE</span></div>
-        </div>
-      </div>
-      <br>
-
-      <!-- Recent pending permits -->
-      <div class="table-header">
-        <div class="table-title">Pending Permit Applications — Requires Action</div>
-        <button class="btn btn-ghost btn-sm" onclick="showPage('permits',document.querySelector('.nav-item:nth-child(4)'))">View All</button>
-      </div>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead><tr>
-            <th>Permit ID</th><th>Applicant</th><th>Zone</th><th>Type</th><th>Submitted</th><th>Action</th>
-          </tr></thead>
-          <tbody id="dash-pending-tbody"></tbody>
-        </table>
-      </div>
+  <div class="ba-grid">
+    <div class="ba-card ba-before">
+      <div class="ba-title">⚠ Current Batch System — The Problem</div>
+      <div class="ba-text">1. Resident gets permit approved<br>2. Data waits in queue 2–4 hours<br>3. Officer checks plate — <strong style="color:var(--re2)">not visible on device</strong><br>4. <strong style="color:var(--re2)">Wrongful citation issued</strong><br>5. Resident disputes — staff spend 20 min<br>6. Citation dismissed. Repeats 431×/yr.</div>
     </div>
-
-    <!-- PERMITS PAGE -->
-    <div id="page-permits" class="page">
-      <div class="breadcrumb">ParkSync / <span>Permits</span></div>
-      <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
-        <div>
-          <div class="page-title">Permit Registry</div>
-          <div class="page-sub">Manage all parking permit applications and approvals</div>
-        </div>
-        <button class="btn btn-primary" onclick="showPage('new-permit',document.querySelector('.nav-item:nth-child(5)'))">+ New Application</button>
-      </div>
-      <div class="table-header">
-        <div class="table-title" id="permit-count-label">Loading...</div>
-        <div class="filter-bar">
-          <input class="search-input" placeholder="Search name, plate, ID..." oninput="filterPermits()" id="permit-search">
-          <select class="filter-select" onchange="filterPermits()" id="permit-status-filter">
-            <option value="">All Statuses</option>
-            <option>Approved</option><option>Pending</option><option>Expired</option>
-          </select>
-          <select class="filter-select" onchange="filterPermits()" id="permit-zone-filter">
-            <option value="">All Zones</option>
-            <option>Downtown</option><option>Residential</option><option>Commercial</option><option>University</option>
-          </select>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead><tr>
-            <th>Permit ID</th><th>Applicant</th><th>Type</th><th>Zone</th><th>Vehicle Plate</th><th>Status</th><th>Approved</th><th>Expires</th><th>Actions</th>
-          </tr></thead>
-          <tbody id="permits-tbody"></tbody>
-        </table>
-        <div class="pagination">
-          <span id="permit-pag-info">–</span>
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm" onclick="permitPage(-1)">← Prev</button>
-            <button class="btn btn-ghost btn-sm" onclick="permitPage(1)">Next →</button>
-          </div>
-        </div>
-      </div>
+    <div class="ba-card ba-after">
+      <div class="ba-title">⚡ ParkSync Solution — Toggle Mode Above</div>
+      <div class="ba-text">1. Resident gets permit approved<br>2. <strong style="color:var(--gr2)">Instant push to all officer devices</strong><br>3. Device updates in under 2 minutes<br>4. <strong style="color:var(--gr2)">Officer sees permit — no ticket issued</strong><br>5. No dispute needed — 0 staff hours<br>6. ECR drops from 35.9% to ~5%</div>
     </div>
-
-    <!-- NEW PERMIT PAGE -->
-    <div id="page-new-permit" class="page">
-      <div class="breadcrumb">ParkSync / Permits / <span>New Application</span></div>
-      <div class="page-header">
-        <div class="page-title">New Permit Application</div>
-        <div class="page-sub">Submit a new parking permit request for review</div>
-      </div>
-      <div style="background:var(--card);border:1px solid var(--border);padding:24px;max-width:600px">
-        <div class="form-grid">
-          <div class="form-row">
-            <label class="form-label">Applicant Name</label>
-            <input class="form-input" id="np-name" placeholder="Full name">
-          </div>
-          <div class="form-row">
-            <label class="form-label">Vehicle Plate</label>
-            <input class="form-input" id="np-plate" placeholder="e.g. RV-4821">
-          </div>
-          <div class="form-row">
-            <label class="form-label">Applicant Type</label>
-            <select class="form-select" id="np-type">
-              <option>Resident</option><option>Contractor</option><option>University Affiliate</option><option>Visitor</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label class="form-label">Parking Zone</label>
-            <select class="form-select" id="np-zone">
-              <option>Downtown</option><option>Residential</option><option>Commercial</option><option>University</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label class="form-label">Start Date</label>
-            <input class="form-input" id="np-start" type="date">
-          </div>
-          <div class="form-row">
-            <label class="form-label">End Date</label>
-            <input class="form-input" id="np-end" type="date">
-          </div>
-        </div>
-        <div class="form-row">
-          <label class="form-label">Notes (optional)</label>
-          <textarea class="form-textarea" id="np-notes" placeholder="Additional information..."></textarea>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:4px">
-          <button class="btn btn-primary" onclick="submitPermit()">Submit Application</button>
-          <button class="btn btn-ghost" onclick="showPage('permits',document.querySelector('.nav-item:nth-child(4)'))">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- CITATIONS PAGE -->
-    <div id="page-citations" class="page">
-      <div class="breadcrumb">ParkSync / <span>Citations</span></div>
-      <div class="page-header">
-        <div class="page-title">Citation Records</div>
-        <div class="page-sub">All parking citations — color-coded by sync latency at time of issue</div>
-      </div>
-      <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
-        <span style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px"><span class="lat-pill lat-green">0 min</span>Real-time</span>
-        <span style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px"><span class="lat-pill lat-amber">1–60 min</span>Delayed</span>
-        <span style="font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px"><span class="lat-pill lat-red">60+ min</span>High risk of error</span>
-      </div>
-      <div class="table-header">
-        <div class="table-title" id="cite-count-label">–</div>
-        <div class="filter-bar">
-          <input class="search-input" placeholder="Search officer, zone, ID..." oninput="filterCitations()" id="cite-search">
-          <select class="filter-select" onchange="filterCitations()" id="cite-err-filter">
-            <option value="">All Citations</option><option value="Yes">Erroneous Only</option><option value="No">Valid Only</option>
-          </select>
-          <select class="filter-select" onchange="filterCitations()" id="cite-zone-filter">
-            <option value="">All Zones</option>
-            <option>Downtown</option><option>Residential</option><option>Commercial</option><option>University</option>
-          </select>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead><tr>
-            <th>Citation ID</th><th>Zone</th><th>Officer</th><th>Date</th><th>Amount</th><th>Latency</th><th>Erroneous</th><th>Payment</th><th>Actions</th>
-          </tr></thead>
-          <tbody id="citations-tbody"></tbody>
-        </table>
-        <div class="pagination">
-          <span id="cite-pag-info">–</span>
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm" onclick="citePage(-1)">← Prev</button>
-            <button class="btn btn-ghost btn-sm" onclick="citePage(1)">Next →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DISPUTES PAGE -->
-    <div id="page-disputes" class="page">
-      <div class="breadcrumb">ParkSync / <span>Disputes</span></div>
-      <div class="page-header">
-        <div class="page-title">Dispute Management</div>
-        <div class="page-sub">Review, process and resolve parking citation disputes</div>
-      </div>
-      <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-        <div class="stat-box red">
-          <div class="stat-num" id="d-open">18</div>
-          <div class="stat-label">Open / Pending</div>
-        </div>
-        <div class="stat-box teal">
-          <div class="stat-num" id="d-dismissed">327</div>
-          <div class="stat-label">Dismissed (Wrongful)</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num" id="d-upheld">202</div>
-          <div class="stat-label">Upheld (Valid)</div>
-        </div>
-      </div>
-      <div class="table-header">
-        <div class="table-title" id="disp-count-label">–</div>
-        <div class="filter-bar">
-          <select class="filter-select" onchange="filterDisputes()" id="disp-outcome-filter">
-            <option value="">All Outcomes</option><option>Pending</option><option>Dismissed</option><option>Upheld</option>
-          </select>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead><tr>
-            <th>Dispute ID</th><th>Citation ID</th><th>Zone</th><th>Erroneous</th><th>Filed Date</th><th>Admin Time</th><th>Outcome</th><th>Action</th>
-          </tr></thead>
-          <tbody id="disputes-tbody"></tbody>
-        </table>
-        <div class="pagination">
-          <span id="disp-pag-info">–</span>
-          <div style="display:flex;gap:6px">
-            <button class="btn btn-ghost btn-sm" onclick="dispPage(-1)">← Prev</button>
-            <button class="btn btn-ghost btn-sm" onclick="dispPage(1)">Next →</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SYNC STATUS PAGE -->
-    <div id="page-sync" class="page">
-      <div class="breadcrumb">ParkSync / <span>Sync Status</span></div>
-      <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
-        <div>
-          <div class="page-title">Device Sync Status</div>
-          <div class="page-sub">Real-time synchronization monitor for all officer devices</div>
-        </div>
-        <button class="btn btn-primary" onclick="simulateSync()">⚡ Push Real-Time Sync to All Devices</button>
-      </div>
-
-      <div style="background:rgba(224,80,80,0.08);border:1px solid rgba(224,80,80,0.3);border-left:3px solid var(--red);padding:14px 16px;margin-bottom:20px;font-size:13px" id="sync-alert">
-        ⚠️ Current mode: <strong>Batch Upload</strong> — Average delay: <strong>101.4 minutes</strong>. This is causing 35.9% erroneous citations. Click "Push Real-Time Sync" to simulate ParkSync fix.
-      </div>
-
-      <div class="sync-grid" style="grid-template-columns:repeat(2,1fr)">
-        <div class="sync-card" style="padding:20px">
-          <div class="sync-zone" style="font-size:14px;margin-bottom:14px">🏙 Downtown Zone</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Current Sync Delay</div>
-          <div class="sync-bar-wrap" style="height:10px;margin-bottom:8px"><div class="sync-bar" id="sync-dt" style="width:34%;background:var(--red)"></div></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px">
-            <span id="sync-dt-delay" style="color:var(--red);font-family:'IBM Plex Mono',monospace">104 min</span>
-            <span id="sync-dt-status" style="color:var(--red)">STALE DATA</span>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">22 active devices · Last sync: 10:08 AM</div>
-        </div>
-        <div class="sync-card" style="padding:20px">
-          <div class="sync-zone" style="font-size:14px;margin-bottom:14px">🏘 Residential Zone</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Current Sync Delay</div>
-          <div class="sync-bar-wrap" style="height:10px;margin-bottom:8px"><div class="sync-bar" id="sync-rs" style="width:31%;background:var(--red)"></div></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px">
-            <span id="sync-rs-delay" style="color:var(--red);font-family:'IBM Plex Mono',monospace">99 min</span>
-            <span id="sync-rs-status" style="color:var(--red)">STALE DATA</span>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">18 active devices · Last sync: 10:15 AM</div>
-        </div>
-        <div class="sync-card" style="padding:20px">
-          <div class="sync-zone" style="font-size:14px;margin-bottom:14px">🏪 Commercial Zone</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Current Sync Delay</div>
-          <div class="sync-bar-wrap" style="height:10px;margin-bottom:8px"><div class="sync-bar" id="sync-cm" style="width:35%;background:var(--yellow)"></div></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px">
-            <span id="sync-cm-delay" style="color:var(--yellow);font-family:'IBM Plex Mono',monospace">108 min</span>
-            <span id="sync-cm-status" style="color:var(--yellow)">DELAYED</span>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">15 active devices · Last sync: 10:02 AM</div>
-        </div>
-        <div class="sync-card" style="padding:20px">
-          <div class="sync-zone" style="font-size:14px;margin-bottom:14px">🎓 University Zone</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Current Sync Delay</div>
-          <div class="sync-bar-wrap" style="height:10px;margin-bottom:8px"><div class="sync-bar" id="sync-un" style="width:29%;background:var(--red)"></div></div>
-          <div style="display:flex;justify-content:space-between;font-size:12px">
-            <span id="sync-un-delay" style="color:var(--red);font-family:'IBM Plex Mono',monospace">95 min</span>
-            <span id="sync-un-status" style="color:var(--red)">STALE DATA</span>
-          </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px">12 active devices · Last sync: 10:19 AM</div>
-        </div>
-      </div>
-
-      <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);padding:16px">
-        <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:12px">Batch vs Real-Time Sync Impact</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:12px">
-          <div>
-            <div style="color:var(--red);font-weight:600;margin-bottom:8px">Current (Batch System)</div>
-            <div style="color:var(--muted);line-height:2">Avg delay: 101.4 minutes<br>Error rate: 35.9%<br>Disputes/yr: 547<br>Staff hours wasted: 182</div>
-          </div>
-          <div>
-            <div style="color:var(--teal);font-weight:600;margin-bottom:8px">After ParkSync (Real-Time)</div>
-            <div style="color:var(--muted);line-height:2">Avg delay: &lt;2 minutes<br>Error rate: ~5%<br>Disputes/yr: ~110<br>Staff hours wasted: ~37</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ANALYTICS PAGE -->
-    <div id="page-analytics" class="page">
-      <div class="breadcrumb">ParkSync / <span>Analytics</span></div>
-      <div class="page-header">
-        <div class="page-title">Analytics & KPI Monitor</div>
-        <div class="page-sub">Live performance metrics — City of Riverton Parking Operations 2024</div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-box red">
-          <div class="stat-num">35.9%</div>
-          <div class="stat-label">ECR — Error Citation Rate</div>
-          <div class="stat-delta neg">431 / 1,200 citations</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-num">101.4</div>
-          <div class="stat-label">DSL — Avg Sync Latency (min)</div>
-          <div class="stat-delta neg">Target: &lt;2 min</div>
-        </div>
-        <div class="stat-box red">
-          <div class="stat-num">59.8%</div>
-          <div class="stat-label">DRR — Dispute Resolution Rate</div>
-          <div class="stat-delta neg">327 of 547 dismissed</div>
-        </div>
-        <div class="stat-box teal">
-          <div class="stat-num">$0</div>
-          <div class="stat-label">Infrastructure Cost</div>
-          <div class="stat-delta">ParkSync deployment</div>
-        </div>
-      </div>
-
-      <div class="ana-grid">
-        <div class="ana-card">
-          <div class="ana-card-title">Error Rate by Zone</div>
-          <div class="bar-chart">
-            <div class="bar-row"><div class="bar-label">Downtown</div><div class="bar-track"><div class="bar-fill" style="width:36.1%;background:var(--red)"></div></div><div class="bar-val">36.1%</div></div>
-            <div class="bar-row"><div class="bar-label">Commercial</div><div class="bar-track"><div class="bar-fill" style="width:34.5%;background:var(--red)"></div></div><div class="bar-val">34.5%</div></div>
-            <div class="bar-row"><div class="bar-label">Residential</div><div class="bar-track"><div class="bar-fill" style="width:35.2%;background:var(--yellow)"></div></div><div class="bar-val">35.2%</div></div>
-            <div class="bar-row"><div class="bar-label">University</div><div class="bar-track"><div class="bar-fill" style="width:37.8%;background:var(--red)"></div></div><div class="bar-val">37.8%</div></div>
-          </div>
-          <div style="font-size:10px;color:var(--muted);margin-top:12px">All 4 zones exceed 34% — city-wide structural problem</div>
-        </div>
-        <div class="ana-card">
-          <div class="ana-card-title">Avg Latency by Zone (minutes)</div>
-          <div class="bar-chart">
-            <div class="bar-row"><div class="bar-label">Downtown</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--red)"></div></div><div class="bar-val">104</div></div>
-            <div class="bar-row"><div class="bar-label">Commercial</div><div class="bar-track"><div class="bar-fill" style="width:96%;background:var(--red)"></div></div><div class="bar-val">101</div></div>
-            <div class="bar-row"><div class="bar-label">Residential</div><div class="bar-track"><div class="bar-fill" style="width:90%;background:var(--red)"></div></div><div class="bar-val">95</div></div>
-            <div class="bar-row"><div class="bar-label">University</div><div class="bar-track"><div class="bar-fill" style="width:86%;background:var(--yellow)"></div></div><div class="bar-val">91</div></div>
-          </div>
-          <div style="font-size:10px;color:var(--muted);margin-top:12px">All zones exceed 90 minutes — target is under 2 minutes</div>
-        </div>
-        <div class="ana-card">
-          <div class="ana-card-title">Dispute Outcomes</div>
-          <div class="bar-chart">
-            <div class="bar-row"><div class="bar-label">Dismissed</div><div class="bar-track"><div class="bar-fill" style="width:59.8%;background:var(--teal)"></div></div><div class="bar-val">327</div></div>
-            <div class="bar-row"><div class="bar-label">Upheld</div><div class="bar-track"><div class="bar-fill" style="width:36.9%;background:var(--blue)"></div></div><div class="bar-val">202</div></div>
-            <div class="bar-row"><div class="bar-label">Pending</div><div class="bar-track"><div class="bar-fill" style="width:3.3%;background:var(--yellow)"></div></div><div class="bar-val">18</div></div>
-          </div>
-          <div style="font-size:10px;color:var(--muted);margin-top:12px">59.8% dismissed = confirmed wrongful citations</div>
-        </div>
-        <div class="ana-card">
-          <div class="ana-card-title">Error Rate vs Latency Bin</div>
-          <div class="bar-chart">
-            <div class="bar-row"><div class="bar-label">0 min</div><div class="bar-track"><div class="bar-fill" style="width:5%;background:var(--green)"></div></div><div class="bar-val">5%</div></div>
-            <div class="bar-row"><div class="bar-label">1–30 min</div><div class="bar-track"><div class="bar-fill" style="width:10%;background:var(--green)"></div></div><div class="bar-val">10%</div></div>
-            <div class="bar-row"><div class="bar-label">31–60 min</div><div class="bar-track"><div class="bar-fill" style="width:19%;background:var(--yellow)"></div></div><div class="bar-val">19%</div></div>
-            <div class="bar-row"><div class="bar-label">61–90 min</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:var(--yellow)"></div></div><div class="bar-val">25%</div></div>
-            <div class="bar-row"><div class="bar-label">91–120 min</div><div class="bar-track"><div class="bar-fill" style="width:32%;background:var(--red)"></div></div><div class="bar-val">32%</div></div>
-            <div class="bar-row"><div class="bar-label">121–180 min</div><div class="bar-track"><div class="bar-fill" style="width:41%;background:var(--red)"></div></div><div class="bar-val">41%</div></div>
-            <div class="bar-row"><div class="bar-label">180+ min</div><div class="bar-track"><div class="bar-fill" style="width:52%;background:var(--red)"></div></div><div class="bar-val">52%</div></div>
-          </div>
-          <div style="font-size:10px;color:var(--muted);margin-top:12px">+8–10% error rate for every 30 min extra delay</div>
-        </div>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<!-- MODAL CONTAINER -->
-<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
-  <div id="modal-box" class="modal" onclick="e=>e.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-title" id="modal-title">Detail</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer" id="modal-footer"></div>
   </div>
 </div>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-container" id="toast-container"></div>
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page">
+  <div class="ph"><div class="pt">Operations Dashboard</div><div class="ps">City of Riverton — Parking Permit &amp; Enforcement Analytics</div></div>
+  <div class="srow">
+    <div class="scard or"><div class="sv" id="d-avail">22</div><div class="sl">Available Slots</div><div class="sd" id="d-avail-d">of 34 total today</div></div>
+    <div class="scard re"><div class="sv" id="d-ecr" style="color:var(--re2)">35.9%</div><div class="sl">Error Citation Rate</div><div class="sd neg" id="d-ecr-d">Target: below 5%</div></div>
+    <div class="scard te"><div class="sv" id="d-lat">101.4</div><div class="sl">Avg Sync Latency (min)</div><div class="sd neg">Target: below 2 min</div></div>
+    <div class="scard gr"><div class="sv" id="d-books">0</div><div class="sl">Bookings Today</div><div class="sd pos" id="d-books-d">No active sessions</div></div>
+  </div>
+  <div class="sess-banner hid" id="dash-banner">
+    <div><div style="font-size:10px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Active Session</div><div class="sess-timer" id="dash-timer">00:00</div></div>
+    <div style="flex:1"><div class="sess-slot-lbl" id="dash-slotlbl">—</div><div class="sess-veh-lbl" id="dash-vehlbl">—</div></div>
+    <button class="btn btn-re btn-sm" onclick="endSession()">End Session</button>
+  </div>
+  <div class="zone-row">
+    <div class="zone-card gr"><div class="zc-lbl">Zone A</div><div class="zc-val" id="d-za">7/10</div><div class="zc-sub">available</div></div>
+    <div class="zone-card te"><div class="zc-lbl">Zone B</div><div class="zc-val" id="d-zb">6/10</div><div class="zc-sub">available</div></div>
+    <div class="zone-card or"><div class="zc-lbl">Zone C</div><div class="zc-val" id="d-zc">5/10</div><div class="zc-sub">available</div></div>
+    <div class="zone-card bl"><div class="zc-lbl">♿ Handicap</div><div class="zc-val" id="d-zh">4/4</div><div class="zc-sub">available</div></div>
+  </div>
+  <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:12px">Recent Bookings</div>
+  <div class="tbl-wrap"><table class="ptbl"><thead><tr><th>Slot</th><th>Vehicle</th><th>Zone</th><th>Duration</th><th>Time</th><th>Status</th></tr></thead><tbody id="d-tbody"><tr><td colspan="6" style="padding:28px;text-align:center;color:var(--mut)">No bookings yet — book a slot to see activity here</td></tr></tbody></table></div>
+</div>
+
+<!-- BOOKING -->
+<div id="page-booking" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <div><div class="pt">Book a Parking Slot</div><div class="ps">Tap a <span style="color:var(--gr);font-weight:600">green slot</span> on the map, fill details, then confirm</div></div>
+    <div style="display:flex;gap:8px"><span class="badge bg-gr" id="avail-badge">22 Available</span><span class="badge bg-re" id="occ-badge">12 Occupied</span></div>
+  </div>
+  <div class="full-alert hid" id="full-alert">
+    <div style="font-size:36px;margin-bottom:8px">🚫</div>
+    <div style="font-size:16px;font-weight:700;color:var(--re2);margin-bottom:4px">Parking Full</div>
+    <div style="font-size:13px;color:var(--mut)">All slots currently occupied. Please wait for a slot to open.</div>
+  </div>
+  <div class="ztabs" id="ztabs">
+    <button class="ztab active" data-zone="all">All Zones</button>
+    <button class="ztab" data-zone="A">Zone A</button>
+    <button class="ztab" data-zone="B">Zone B</button>
+    <button class="ztab" data-zone="C">Zone C</button>
+    <button class="ztab" data-zone="H">♿ Handicap</button>
+  </div>
+  <div class="map-wrap">
+    <div class="map-panel">
+      <div class="zone-sec" id="zw-A"><div class="zone-hdr"><span class="zone-nm">Zone A — Downtown North</span><span class="zone-cnt" id="zc-A" style="color:var(--gr)">7/10</span></div><div class="slots-grid" id="grid-A"></div></div>
+      <div class="zone-sec" id="zw-B"><div class="zone-hdr"><span class="zone-nm">Zone B — Downtown South</span><span class="zone-cnt" id="zc-B" style="color:var(--te)">6/10</span></div><div class="slots-grid" id="grid-B"></div></div>
+      <div class="zone-sec" id="zw-C"><div class="zone-hdr"><span class="zone-nm">Zone C — Commercial</span><span class="zone-cnt" id="zc-C" style="color:var(--or)">5/10</span></div><div class="slots-grid" id="grid-C"></div></div>
+      <div class="zone-sec" id="zw-H"><div class="zone-hdr"><span class="zone-nm">♿ Handicap Reserved</span><span class="zone-cnt" id="zc-H" style="color:var(--bl)">4/4</span></div><div class="slots-grid h4" id="grid-H"></div></div>
+      <div class="map-legend">
+        <div class="leg"><div class="leg-dot" style="background:rgba(0,204,128,.15);border:1.5px solid var(--gr)"></div>Available</div>
+        <div class="leg"><div class="leg-dot" style="background:rgba(255,61,90,.15);border:1.5px solid var(--re)"></div>Occupied</div>
+        <div class="leg"><div class="leg-dot" style="background:rgba(74,158,255,.18);border:1.5px solid var(--bl)"></div>Selected</div>
+        <div class="leg"><div class="leg-dot" style="background:rgba(255,107,43,.15);border:1.5px solid var(--or)"></div>My Booking</div>
+      </div>
+    </div>
+    <div class="bk-form">
+      <div class="bk-title">🅿️ Booking Details</div>
+      <div class="no-slot" id="no-sel">👆 Tap any green slot to select it</div>
+      <div class="sel-card hid" id="sel-card">
+        <div style="font-size:28px">🅿️</div>
+        <div><div class="sel-num" id="sel-num">—</div><div class="sel-sub" id="sel-zone">Zone —</div></div>
+      </div>
+      <div class="ff"><label class="flbl">Vehicle Plate *</label><input class="fi" id="vin" placeholder="e.g. RV-4821" maxlength="10"></div>
+      <div class="fg2">
+        <div class="ff"><label class="flbl">Duration *</label><select class="fs" id="dur-sel" onchange="updPrice()"><option value="30">30 min — $2.50</option><option value="60" selected>1 hour — $5.00</option><option value="90">1.5 hrs — $7.50</option><option value="120">2 hours — $10</option><option value="180">3 hours — $15</option><option value="240">4 hours — $20</option></select></div>
+        <div class="ff"><label class="flbl">Type</label><select class="fs" id="vtype"><option>Sedan</option><option>SUV</option><option>Truck</option><option>Motorcycle</option><option>EV</option></select></div>
+      </div>
+      <div class="ff"><label class="flbl">Permit Holder *</label><input class="fi" id="pname" placeholder="Full name"></div>
+      <div class="price-box">
+        <div class="prow"><span>Slot</span><span style="font-family:'JetBrains Mono',monospace;color:#fff" id="ps-slot">—</span></div>
+        <div class="prow"><span>Duration</span><span style="font-family:'JetBrains Mono',monospace;color:#fff" id="ps-dur">60 min</span></div>
+        <div class="prow total"><span>Total</span><span class="price-amt" id="ps-total">$5.00</span></div>
+      </div>
+      <button class="btn btn-or" style="width:100%;justify-content:center;font-size:14px" onclick="initBook()">✓ Confirm Booking</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVE SESSION -->
+<div id="page-active" class="page">
+  <div class="ph"><div class="pt">Active Session</div><div class="ps">Your current parking session — live countdown timer</div></div>
+  <div id="no-sess" class="tbl-wrap" style="padding:48px;text-align:center">
+    <div style="font-size:44px;margin-bottom:14px">🅿️</div>
+    <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:6px">No Active Session</div>
+    <div style="font-size:13px;color:var(--mut);margin-bottom:20px">Book a slot to start your parking session</div>
+    <button class="btn btn-or" onclick="goTo('booking')">Book a Slot</button>
+  </div>
+  <div id="sess-detail" class="hid">
+    <div class="act-hero">
+      <div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px">Time Remaining</div>
+      <div class="act-timer" id="big-timer">00:00</div>
+      <div class="act-bar-bg"><div class="act-bar-fill" id="act-fill" style="width:100%"></div></div>
+      <div class="act-sub" id="act-sub">Full duration remaining</div>
+      <div class="act-info">
+        <div class="ai"><div class="ai-v" id="ai-slot">—</div><div class="ai-l">Slot</div></div>
+        <div class="ai"><div class="ai-v" id="ai-veh">—</div><div class="ai-l">Vehicle</div></div>
+        <div class="ai"><div class="ai-v" id="ai-amt">—</div><div class="ai-l">Paid</div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div class="tbl-wrap" style="padding:18px">
+        <div style="font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;font-weight:700">Session Details</div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:13px"><span style="color:var(--mut)">Zone</span><span id="ai-zone" style="font-weight:600;color:#fff">—</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:13px"><span style="color:var(--mut)">Vehicle Type</span><span id="ai-type" style="font-weight:600;color:#fff">—</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:13px"><span style="color:var(--mut)">Started</span><span id="ai-start" style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:#fff">—</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:10px;font-size:13px"><span style="color:var(--mut)">Ends at</span><span id="ai-end" style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:var(--or)">—</span></div>
+      </div>
+      <div class="tbl-wrap" style="padding:18px;background:rgba(0,204,128,.07);border-color:rgba(0,204,128,.2)">
+        <div style="font-size:11px;color:var(--gr);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;font-weight:700">⚡ ParkSync Active</div>
+        <div style="font-size:13px;color:var(--txt2);line-height:1.9;font-weight:400">Your permit is <strong style="color:var(--gr2)">live on all 67 officer devices</strong>. No citation risk during this session. Sync latency: under 2 minutes.</div>
+      </div>
+    </div>
+    <button class="btn btn-re" onclick="endSession()">✕ End Session Early</button>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="page-history" class="page">
+  <div class="ph"><div class="pt">Booking History</div><div class="ps">All past and active parking sessions</div></div>
+  <div id="hist-empty" style="text-align:center;padding:40px;color:var(--mut);font-size:13px">No bookings yet. Make your first booking to see history here.</div>
+  <div id="hist-list"></div>
+</div>
+
+<!-- PERMITS -->
+<div id="page-permits" class="page">
+  <div class="ph"><div class="pt">Permit Registry</div><div class="ps">Manage permits — in ParkSync mode, approvals push instantly to all officer devices</div></div>
+  <div class="tbl-wrap"><table class="ptbl"><thead><tr><th>Permit ID</th><th>Vehicle</th><th>Owner</th><th>Zone</th><th>Status</th><th>Expires</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td style="font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600">P-0001</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gr)">RV-2841</td><td>Sarah Johnson</td><td>Zone A</td><td><span class="badge bg-gr">Approved</span></td><td style="color:var(--mut);font-size:12px">2025-12-31</td><td><button class="btn btn-gl btn-sm">View</button></td></tr>
+    <tr><td style="font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600">P-0002</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gr)">RV-5519</td><td>Marcus Webb</td><td>Zone B</td><td><span class="badge bg-gr">Approved</span></td><td style="color:var(--mut);font-size:12px">2025-08-15</td><td><button class="btn btn-gl btn-sm">View</button></td></tr>
+    <tr><td style="font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600">P-0003</td><td style="font-family:'JetBrains Mono',monospace;color:var(--yw)">RV-9920</td><td>Priya Nair</td><td>Zone A</td><td><span class="badge bg-yw" id="p3-st">Pending</span></td><td style="color:var(--mut);font-size:12px">—</td><td><button class="btn btn-or btn-sm" onclick="approvePerm(this)">Approve →</button></td></tr>
+    <tr><td style="font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600">P-0004</td><td style="font-family:'JetBrains Mono',monospace;color:var(--re2)">RV-1133</td><td>James Liu</td><td>Zone C</td><td><span class="badge bg-re">Expired</span></td><td style="color:var(--mut);font-size:12px">2024-03-01</td><td><button class="btn btn-gl btn-sm">View</button></td></tr>
+    <tr><td style="font-family:'JetBrains Mono',monospace;color:#fff;font-weight:600">P-0005</td><td style="font-family:'JetBrains Mono',monospace;color:var(--gr)">RV-7742</td><td>Emily Torres</td><td>Handicap</td><td><span class="badge bg-gr">Approved</span></td><td style="color:var(--mut);font-size:12px">2025-11-30</td><td><button class="btn btn-gl btn-sm">View</button></td></tr>
+  </tbody></table></div>
+</div>
+
+<!-- DISPUTES -->
+<div id="page-disputes" class="page">
+  <div class="ph"><div class="pt">Dispute Management</div><div class="ps">Every dispute here was caused by the sync gap — ParkSync eliminates the root cause</div></div>
+  <div class="disp-note"><strong style="color:var(--or)">Why these exist:</strong> Officer devices had stale permit data due to batch uploads. Each citation was issued during a sync gap. ParkSync eliminates these entirely.</div>
+  <div id="disp-list">
+    <div class="hitem"><div class="hico" style="background:rgba(255,61,90,.15)">⚖️</div><div style="flex:1"><div class="hslot">D-001 — Vehicle RV-2841 · Zone A</div><div class="hdet" style="margin-top:3px">Permit approved 09:02. Device synced at 11:00 (118 min later). Citation issued at 09:45 during gap.</div><div class="hdet" style="color:var(--re2);font-weight:600;margin-top:3px">Wrongful — caused by 118-minute sync delay</div></div><div style="text-align:right;flex-shrink:0"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--re2);font-size:15px;margin-bottom:8px">$50.00</div><button class="btn btn-gr btn-sm" onclick="dismissDisp(this)">Dismiss →</button></div></div>
+    <div class="hitem"><div class="hico" style="background:rgba(255,61,90,.15)">⚖️</div><div style="flex:1"><div class="hslot">D-002 — Vehicle RV-5519 · Zone B</div><div class="hdet" style="margin-top:3px">Permit approved 10:17. Sync delay: 103 minutes. Citation issued at 10:55 during gap.</div><div class="hdet" style="color:var(--re2);font-weight:600;margin-top:3px">Wrongful — caused by 103-minute sync delay</div></div><div style="text-align:right;flex-shrink:0"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--re2);font-size:15px;margin-bottom:8px">$75.00</div><button class="btn btn-gr btn-sm" onclick="dismissDisp(this)">Dismiss →</button></div></div>
+    <div class="hitem"><div class="hico" style="background:rgba(255,61,90,.15)">⚖️</div><div style="flex:1"><div class="hslot">D-003 — Vehicle RV-9920 · Zone A</div><div class="hdet" style="margin-top:3px">Permit approved 08:15. Batch delay: 110 minutes. Citation issued at 09:30.</div><div class="hdet" style="color:var(--re2);font-weight:600;margin-top:3px">Wrongful — caused by 110-minute sync delay</div></div><div style="text-align:right;flex-shrink:0"><div style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--re2);font-size:15px;margin-bottom:8px">$50.00</div><button class="btn btn-gr btn-sm" onclick="dismissDisp(this)">Dismiss →</button></div></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="overlay hid" id="m-confirm">
+  <div class="modal">
+    <div class="mhdr"><div class="mttl">Confirm Booking</div><button class="mclose" onclick="closeM('m-confirm')">✕</button></div>
+    <div class="mbdy">
+      <div class="slot-confirm"><div class="sc-num" id="cm-slot">—</div><div class="sc-sub" id="cm-zone">Zone —</div></div>
+      <div class="crow"><span class="clbl">Vehicle Plate</span><span class="cval" id="cm-veh">—</span></div>
+      <div class="crow"><span class="clbl">Vehicle Type</span><span class="cval" id="cm-type">—</span></div>
+      <div class="crow"><span class="clbl">Permit Holder</span><span class="cval" id="cm-name">—</span></div>
+      <div class="crow"><span class="clbl">Duration</span><span class="cval" id="cm-dur">—</span></div>
+      <div class="crow"><span class="clbl">Total Amount</span><span class="cval" style="color:var(--or);font-size:18px" id="cm-total">—</span></div>
+    </div>
+    <div class="mftr"><button class="btn btn-gl" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-or" onclick="doBook()">✓ Book Now</button></div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="overlay hid" id="m-success">
+  <div class="modal">
+    <div class="mbdy" style="padding:28px">
+      <div class="s-ring">✓</div>
+      <div class="s-title">Booking Confirmed!</div>
+      <div class="s-sub" id="s-sub">Your slot is reserved</div>
+      <div class="s-det">
+        <div class="sdr"><span class="sdl">Slot</span><span class="sdv" id="sm-slot">—</span></div>
+        <div class="sdr"><span class="sdl">Vehicle</span><span class="sdv" id="sm-veh">—</span></div>
+        <div class="sdr"><span class="sdl">Duration</span><span class="sdv" id="sm-dur">—</span></div>
+        <div class="sdr"><span class="sdl">Start</span><span class="sdv" id="sm-start">—</span></div>
+        <div class="sdr"><span class="sdl">End</span><span class="sdv" id="sm-end">—</span></div>
+        <div class="sdr"><span class="sdl">Paid</span><span class="sdv" style="color:var(--or)" id="sm-paid">—</span></div>
+      </div>
+      <div class="tim-box"><div class="tim-lbl">Time Remaining</div><div class="tim-num" id="sm-timer">00:00</div><div class="tim-bar-bg"><div class="tim-bar-fill" id="sm-fill" style="width:100%"></div></div></div>
+      <button class="btn btn-or" style="width:100%;justify-content:center;font-size:14px" onclick="gotoActive()">View Active Session →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-wrap"></div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────
-const ZONES = ['Downtown','Residential','Commercial','University'];
-const TYPES = ['Resident','Contractor','University Affiliate','Visitor'];
-const NAMES = ['Sarah Johnson','Marcus Webb','Priya Nair','James Liu','Emily Torres','David Kim','Aisha Patel','Chris Morgan','Lisa Chen','Robert Hall','Maria Garcia','Kevin Brown','Nancy White','Tom Wilson','Amy Zhang'];
-const OFFICERS = ['OFF-001','OFF-002','OFF-003','OFF-004','OFF-005','OFF-006','OFF-007','OFF-008','OFF-009','OFF-010'];
+// ── SAFE ES5 COMPATIBLE CODE ──────────────────────────────────────
+var PRE_OCC = {A:[3,7,9], B:[2,5,8,10], C:[1,4,6,9,10], H:[]};
+var ZN = {A:10, B:10, C:10, H:4};
+var slots = {};
+var selSlot = null, session = null, sInt = null, bookings = [], liveMode = false, bc = 47;
 
-let rng = 42;
-function rand(){ rng=(rng*1664525+1013904223)&0xffffffff; return(rng>>>0)/0xffffffff; }
-function randi(a,b){ return a+Math.floor(rand()*(b-a+1)); }
-function pick(arr){ return arr[Math.floor(rand()*arr.length)]; }
-
-const PERMITS = [];
-const CITATIONS = [];
-const DISPUTES = [];
-
-// Generate permits
-for(let i=1;i<=120;i++){
-  const zone = pick(ZONES);
-  const type = pick(TYPES);
-  const statuses = ['Approved','Approved','Approved','Approved','Pending','Pending','Expired'];
-  const status = pick(statuses);
-  const month = randi(1,12);
-  const day = randi(1,28);
-  const plate = `RV-${randi(1000,9999)}`;
-  PERMITS.push({
-    id:`P-${String(i).padStart(4,'0')}`,
-    name:pick(NAMES), type, zone, plate, status,
-    submitted:`2024-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`,
-    approved: status==='Pending'?'—':`2024-${String(month).padStart(2,'0')}-${String(Math.min(day+1,28)).padStart(2,'0')}`,
-    expires: status==='Expired'?`2024-${String(Math.min(month+2,12)).padStart(2,'0')}-28`:`2025-${String(month).padStart(2,'0')}-28`,
-  });
-}
-
-// Generate citations
-const latBins = [0,15,30,60,90,120,180,240,300];
-const latWeights = [5,8,12,18,20,17,10,6,4];
-function pickLatency(){
-  const r=rand()*100;let cum=0;
-  for(let i=0;i<latBins.length;i++){cum+=latWeights[i];if(r<=cum)return latBins[i];}
-  return 90;
-}
-for(let i=1;i<=80;i++){
-  const lat = pickLatency();
-  const pErr = Math.min(0.9, 0.05 + lat*0.003);
-  const erroneous = rand() < pErr ? 'Yes' : 'No';
-  const zone = pick(ZONES);
-  const amounts = [25,50,75,100,150];
-  CITATIONS.push({
-    id:`C-${String(i).padStart(4,'0')}`,
-    zone, officer:pick(OFFICERS),
-    date:`2024-${String(randi(1,12)).padStart(2,'0')}-${String(randi(1,28)).padStart(2,'0')}`,
-    amount:pick(amounts),
-    latency:lat, erroneous,
-    payment: erroneous==='Yes' && rand()<0.6 ? 'Unpaid' : (rand()<0.78?'Paid':'Unpaid'),
-  });
-}
-
-// Generate disputes
-let did=1;
-CITATIONS.forEach(c=>{
-  const shouldDispute = c.erroneous==='Yes' || rand()<0.12;
-  if(shouldDispute){
-    const outcomes = c.erroneous==='Yes'
-      ? ['Dismissed','Dismissed','Dismissed','Upheld','Pending']
-      : ['Upheld','Upheld','Dismissed','Pending'];
-    DISPUTES.push({
-      id:`D-${String(did++).padStart(4,'0')}`,
-      cid:c.id, zone:c.zone,
-      erroneous:c.erroneous,
-      date:`2024-${String(randi(1,12)).padStart(2,'0')}-${String(randi(1,28)).padStart(2,'0')}`,
-      adminTime: Math.round(15+rand()*15),
-      outcome: pick(outcomes),
-    });
+// Init slots
+Object.keys(ZN).forEach(function(z) {
+  for (var i = 1; i <= ZN[z]; i++) {
+    slots[z+i] = (PRE_OCC[z].indexOf(i) >= 0) ? 'occ' : null;
   }
 });
 
-// ── PAGINATION STATE ──────────────────────────────────────────────
-let filteredPermits = [...PERMITS], pPage=0, pPerPage=12;
-let filteredCites = [...CITATIONS], cPage=0, cPerPage=12;
-let filteredDisps = [...DISPUTES], dPage=0, dPerPage=12;
+// Clock
+setInterval(function() {
+  var el = document.getElementById('clk');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}, 1000);
 
-// ── PAGE NAVIGATION ───────────────────────────────────────────────
-function showPage(id, navEl){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  if(navEl) navEl.classList.add('active');
-  if(id==='permits') renderPermits();
-  if(id==='citations') renderCitations();
-  if(id==='disputes') renderDisputes();
-  if(id==='dashboard') renderDashPending();
+// Navigation
+function goTo(id) {
+  var navEl = document.querySelector('[data-pg="' + id + '"]');
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.ni').forEach(function(n) { n.classList.remove('active'); });
+  var page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  if (id === 'booking') renderMap();
+  if (id === 'history') renderHist();
 }
 
-// ── TOAST ─────────────────────────────────────────────────────────
-function toast(msg, type='success'){
-  const t=document.createElement('div');
-  t.className=`toast${type==='error'?' error':type==='info'?' info':''}`;
-  t.innerHTML=`<span>${type==='success'?'✅':type==='error'?'❌':'ℹ️'}</span><span>${msg}</span>`;
-  document.getElementById('toast-container').appendChild(t);
-  setTimeout(()=>t.remove(),3500);
-}
-
-// ── MODAL ─────────────────────────────────────────────────────────
-function openModal(title, bodyHTML, footerHTML=''){
-  document.getElementById('modal-title').textContent=title;
-  document.getElementById('modal-body').innerHTML=bodyHTML;
-  document.getElementById('modal-footer').innerHTML=footerHTML;
-  document.getElementById('modal-overlay').classList.remove('hidden');
-}
-function closeModal(e){
-  if(!e || e.target===document.getElementById('modal-overlay'))
-    document.getElementById('modal-overlay').classList.add('hidden');
-}
-
-// ── PERMITS ───────────────────────────────────────────────────────
-function filterPermits(){
-  const s=document.getElementById('permit-search').value.toLowerCase();
-  const sf=document.getElementById('permit-status-filter').value;
-  const zf=document.getElementById('permit-zone-filter').value;
-  filteredPermits=PERMITS.filter(p=>{
-    if(s && !p.name.toLowerCase().includes(s) && !p.plate.toLowerCase().includes(s) && !p.id.includes(s)) return false;
-    if(sf && p.status!==sf) return false;
-    if(zf && p.zone!==zf) return false;
-    return true;
+document.querySelectorAll('.ni').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var pg = this.getAttribute('data-pg');
+    if (pg) goTo(pg);
   });
-  pPage=0; renderPermits();
-}
-function permitPage(d){ pPage=Math.max(0,Math.min(Math.ceil(filteredPermits.length/pPerPage)-1,pPage+d)); renderPermits(); }
-function renderPermits(){
-  const slice=filteredPermits.slice(pPage*pPerPage,(pPage+1)*pPerPage);
-  const tb=document.getElementById('permits-tbody');
-  const total=filteredPermits.length;
-  document.getElementById('permit-count-label').textContent=`${total} permits`;
-  document.getElementById('permit-pag-info').textContent=`${pPage*pPerPage+1}–${Math.min((pPage+1)*pPerPage,total)} of ${total}`;
-  const pending=PERMITS.filter(p=>p.status==='Pending').length;
-  document.getElementById('pending-count').textContent=pending;
-  if(!slice.length){tb.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No permits found</td></tr>`;return;}
-  tb.innerHTML=slice.map(p=>`
-    <tr>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${p.id}</span></td>
-      <td>${p.name}</td>
-      <td><span class="badge ${p.type==='Resident'?'badge-approved':p.type==='Visitor'?'badge-pending':'badge-expired'}">${p.type}</span></td>
-      <td>${p.zone}</td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${p.plate}</span></td>
-      <td><span class="badge badge-${p.status.toLowerCase()}">${p.status}</span></td>
-      <td style="font-size:11px;color:var(--muted)">${p.approved}</td>
-      <td style="font-size:11px;color:var(--muted)">${p.expires}</td>
-      <td style="display:flex;gap:6px;flex-wrap:wrap">
-        <button class="btn btn-ghost btn-sm" onclick="viewPermit('${p.id}')">View</button>
-        ${p.status==='Pending'?`<button class="btn btn-teal btn-sm" onclick="approvePermit('${p.id}')">Approve</button><button class="btn btn-red btn-sm" onclick="rejectPermit('${p.id}')">Reject</button>`:''}
-      </td>
-    </tr>`).join('');
-}
-function renderDashPending(){
-  const pending=PERMITS.filter(p=>p.status==='Pending').slice(0,5);
-  const tb=document.getElementById('dash-pending-tbody');
-  if(!pending.length){tb.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)">No pending applications</td></tr>`;return;}
-  tb.innerHTML=pending.map(p=>`
-    <tr>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${p.id}</span></td>
-      <td>${p.name}</td>
-      <td>${p.zone}</td>
-      <td>${p.type}</td>
-      <td style="font-size:11px;color:var(--muted)">${p.submitted}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-teal btn-sm" onclick="approvePermit('${p.id}')">Approve</button>
-        <button class="btn btn-red btn-sm" onclick="rejectPermit('${p.id}')">Reject</button>
-      </td>
-    </tr>`).join('');
-}
-function viewPermit(id){
-  const p=PERMITS.find(x=>x.id===id);
-  const body=`
-    <div class="detail-row"><span class="detail-label">Permit ID</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${p.id}</span></div>
-    <div class="detail-row"><span class="detail-label">Applicant</span><span class="detail-val">${p.name}</span></div>
-    <div class="detail-row"><span class="detail-label">Type</span><span class="detail-val">${p.type}</span></div>
-    <div class="detail-row"><span class="detail-label">Zone</span><span class="detail-val">${p.zone}</span></div>
-    <div class="detail-row"><span class="detail-label">Vehicle Plate</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${p.plate}</span></div>
-    <div class="detail-row"><span class="detail-label">Status</span><span class="detail-val"><span class="badge badge-${p.status.toLowerCase()}">${p.status}</span></span></div>
-    <div class="detail-row"><span class="detail-label">Submitted</span><span class="detail-val">${p.submitted}</span></div>
-    <div class="detail-row"><span class="detail-label">Approved</span><span class="detail-val">${p.approved}</span></div>
-    <div class="detail-row"><span class="detail-label">Expires</span><span class="detail-val">${p.expires}</span></div>`;
-  const footer=p.status==='Pending'
-    ?`<button class="btn btn-teal" onclick="approvePermit('${p.id}');closeModal()">✓ Approve Permit</button><button class="btn btn-red" onclick="rejectPermit('${p.id}');closeModal()">✕ Reject</button>`
-    :`<button class="btn btn-ghost" onclick="closeModal()">Close</button>`;
-  openModal(`Permit ${id}`,body,footer);
-}
-function approvePermit(id){
-  const p=PERMITS.find(x=>x.id===id);
-  if(!p||p.status!=='Pending'){toast('Permit already processed','info');return;}
-  p.status='Approved';
-  p.approved=new Date().toISOString().split('T')[0];
-  p.expires=`2025-${p.submitted.slice(5)}`;
-  renderPermits();renderDashPending();
-  toast(`✅ Permit ${id} approved — device push triggered in &lt;2 min`);
-  document.getElementById('pending-count').textContent=PERMITS.filter(x=>x.status==='Pending').length;
-}
-function rejectPermit(id){
-  const p=PERMITS.find(x=>x.id===id);
-  if(!p||p.status!=='Pending'){toast('Already processed','info');return;}
-  p.status='Expired';
-  renderPermits();renderDashPending();
-  toast(`Permit ${id} rejected`,'error');
-  document.getElementById('pending-count').textContent=PERMITS.filter(x=>x.status==='Pending').length;
-}
-function submitPermit(){
-  const name=document.getElementById('np-name').value.trim();
-  const plate=document.getElementById('np-plate').value.trim();
-  if(!name||!plate){toast('Name and plate are required','error');return;}
-  const id=`P-${String(PERMITS.length+1).padStart(4,'0')}`;
-  PERMITS.unshift({
-    id, name, plate,
-    type:document.getElementById('np-type').value,
-    zone:document.getElementById('np-zone').value,
-    status:'Pending',
-    submitted:new Date().toISOString().split('T')[0],
-    approved:'—',expires:'—',
-  });
-  ['np-name','np-plate','np-notes'].forEach(id=>document.getElementById(id).value='');
-  toast(`Application ${id} submitted — pending review`);
-  document.getElementById('pending-count').textContent=PERMITS.filter(x=>x.status==='Pending').length;
-  showPage('permits',document.querySelector('.nav-item:nth-child(4)'));
+});
+
+// Mode switch
+function setMode(m) {
+  liveMode = (m === 'live');
+  document.getElementById('btn-batch').className = 'mbtn' + (liveMode ? '' : ' batch');
+  document.getElementById('btn-live').className = 'mbtn' + (liveMode ? ' live' : '');
+  var lb = document.getElementById('lat-badge');
+  var en = document.getElementById('ecr-num');
+  var es = document.getElementById('ecr-sub');
+  var sa = document.getElementById('sarrow');
+  var sl = document.getElementById('sarrow-lbl');
+  var bn = document.getElementById('batch-note');
+  var dw = document.getElementById('dev-warn');
+  var dd = document.getElementById('dev-dot');
+  var dl = document.getElementById('dev-lbl');
+  var dsa = document.getElementById('sync-age');
+
+  if (liveMode) {
+    lb.className = 'lat-badge lat-good'; lb.textContent = '⚡ Live — under 2 min';
+    en.textContent = '~5%'; en.style.color = 'var(--gr2)';
+    es.textContent = '✓ Target achieved!'; es.style.color = 'var(--gr)';
+    sa.textContent = '⚡'; sa.classList.add('live');
+    sl.innerHTML = 'Real-time<br>under 2 min';
+    bn.style.background = 'rgba(0,204,128,.12)'; bn.style.borderColor = 'rgba(0,204,128,.25)'; bn.style.color = 'var(--gr)';
+    bn.innerHTML = '⚡ <strong>ParkSync active</strong> — instant push on each approval';
+    document.getElementById('d2841').textContent = '✓ Zone A'; document.getElementById('d2841').className = 'st-good';
+    document.getElementById('d5519').textContent = '✓ Zone B'; document.getElementById('d5519').className = 'st-good';
+    dd.style.background = 'var(--gr)'; dl.textContent = 'Real-time — live data'; dl.style.color = 'var(--gr)';
+    dsa.textContent = '(Updated: just now)'; dsa.style.color = 'var(--gr)';
+    dw.className = 'dev-warn good'; dw.textContent = '✅ RV-2841 visible — no citation risk at all';
+    document.getElementById('d-ecr').textContent = '~5%'; document.getElementById('d-ecr').style.color = 'var(--gr2)';
+    document.getElementById('d-ecr-d').textContent = '✓ Target achieved!'; document.getElementById('d-ecr-d').className = 'sd pos';
+    document.getElementById('d-lat').textContent = '<2';
+    logEv('⚡ ParkSync activated — all 67 officer devices receive real-time permit data', 'gr');
+    logEv('✓ RV-2841 and RV-5519 instantly visible on all devices — citation risk: zero', 'gr');
+    toast('⚡ ParkSync Live Mode — ECR drops from 35.9% to approximately 5%', 'ok');
+  } else {
+    lb.className = 'lat-badge lat-bad'; lb.textContent = '101.4 min delay';
+    en.textContent = '35.9%'; en.style.color = 'var(--re2)';
+    es.textContent = 'Target: below 5%'; es.style.color = '';
+    sa.textContent = '→'; sa.classList.remove('live');
+    sl.innerHTML = 'CSV batch<br>2–4 hrs';
+    bn.style.background = 'rgba(255,107,43,.12)'; bn.style.borderColor = 'rgba(255,107,43,.25)'; bn.style.color = 'var(--or)';
+    bn.innerHTML = '📤 Next batch upload in <strong id="bc">' + bc + '</strong> minutes';
+    document.getElementById('d2841').textContent = '✗ NOT VISIBLE'; document.getElementById('d2841').className = 'st-bad';
+    document.getElementById('d5519').textContent = '✗ NOT VISIBLE'; document.getElementById('d5519').className = 'st-bad';
+    dd.style.background = 'var(--re)'; dl.textContent = 'Stale data — batch mode'; dl.style.color = '';
+    dsa.textContent = '(Last sync: 47 min ago)'; dsa.style.color = 'var(--re2)';
+    dw.className = 'dev-warn bad'; dw.textContent = '⚠ RV-2841 not visible — officer will issue wrongful citation';
+    document.getElementById('d-ecr').textContent = '35.9%'; document.getElementById('d-ecr').style.color = 'var(--re2)';
+    document.getElementById('d-ecr-d').textContent = 'Target: below 5%'; document.getElementById('d-ecr-d').className = 'sd neg';
+    document.getElementById('d-lat').textContent = '101.4';
+    toast('Switched to Batch Mode — ECR back to 35.9%', 'info');
+  }
 }
 
-// ── CITATIONS ─────────────────────────────────────────────────────
-function filterCitations(){
-  const s=document.getElementById('cite-search').value.toLowerCase();
-  const ef=document.getElementById('cite-err-filter').value;
-  const zf=document.getElementById('cite-zone-filter').value;
-  filteredCites=CITATIONS.filter(c=>{
-    if(s && !c.id.includes(s) && !c.officer.toLowerCase().includes(s) && !c.zone.toLowerCase().includes(s)) return false;
-    if(ef && c.erroneous!==ef) return false;
-    if(zf && c.zone!==zf) return false;
-    return true;
-  });
-  cPage=0; renderCitations();
-}
-function citePage(d){ cPage=Math.max(0,Math.min(Math.ceil(filteredCites.length/cPerPage)-1,cPage+d)); renderCitations(); }
-function latClass(l){ return l===0?'lat-green':l<=60?'lat-amber':'lat-red'; }
-function renderCitations(){
-  const slice=filteredCites.slice(cPage*cPerPage,(cPage+1)*cPerPage);
-  const total=filteredCites.length;
-  document.getElementById('cite-count-label').textContent=`${total} citations`;
-  document.getElementById('cite-pag-info').textContent=`${cPage*cPerPage+1}–${Math.min((cPage+1)*cPerPage,total)} of ${total}`;
-  document.getElementById('err-count').textContent=CITATIONS.filter(c=>c.erroneous==='Yes').length;
-  const tb=document.getElementById('citations-tbody');
-  if(!slice.length){tb.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted)">No citations found</td></tr>`;return;}
-  tb.innerHTML=slice.map(c=>`
-    <tr>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${c.id}</span></td>
-      <td>${c.zone}</td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${c.officer}</span></td>
-      <td style="font-size:11px;color:var(--muted)">${c.date}</td>
-      <td style="font-family:'IBM Plex Mono',monospace">$${c.amount}</td>
-      <td><span class="lat-pill ${latClass(c.latency)}">${c.latency===0?'0 min':c.latency+' min'}</span></td>
-      <td><span class="badge badge-${c.erroneous==='Yes'?'yes':'no'}">${c.erroneous}</span></td>
-      <td><span class="badge badge-${c.payment.toLowerCase()}">${c.payment}</span></td>
-      <td><button class="btn btn-ghost btn-sm" onclick="viewCitation('${c.id}')">View</button></td>
-    </tr>`).join('');
-}
-function viewCitation(id){
-  const c=CITATIONS.find(x=>x.id===id);
-  const disp=DISPUTES.find(d=>d.cid===id);
-  const body=`
-    <div class="detail-row"><span class="detail-label">Citation ID</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${c.id}</span></div>
-    <div class="detail-row"><span class="detail-label">Zone</span><span class="detail-val">${c.zone}</span></div>
-    <div class="detail-row"><span class="detail-label">Officer</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${c.officer}</span></div>
-    <div class="detail-row"><span class="detail-label">Date Issued</span><span class="detail-val">${c.date}</span></div>
-    <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">$${c.amount}</span></div>
-    <div class="detail-row"><span class="detail-label">Sync Latency at Issue</span><span class="detail-val"><span class="lat-pill ${latClass(c.latency)}">${c.latency} minutes</span></span></div>
-    <div class="detail-row"><span class="detail-label">Erroneous</span><span class="detail-val"><span class="badge badge-${c.erroneous==='Yes'?'yes':'no'}">${c.erroneous}</span></span></div>
-    <div class="detail-row"><span class="detail-label">Payment Status</span><span class="detail-val"><span class="badge badge-${c.payment.toLowerCase()}">${c.payment}</span></span></div>
-    ${disp?`<div class="detail-row"><span class="detail-label">Dispute Filed</span><span class="detail-val">Yes — ${disp.id}</span></div>
-    <div class="detail-row"><span class="detail-label">Dispute Outcome</span><span class="detail-val"><span class="badge badge-${disp.outcome.toLowerCase()==='dismissed'?'dismissed':disp.outcome.toLowerCase()==='upheld'?'upheld':'pending-out'}">${disp.outcome}</span></span></div>`:'<div class="detail-row"><span class="detail-label">Dispute</span><span class="detail-val" style="color:var(--muted)">None filed</span></div>'}
-    ${c.erroneous==='Yes'?`<div style="background:rgba(224,80,80,0.08);border:1px solid rgba(224,80,80,0.2);padding:12px;margin-top:12px;font-size:12px;color:var(--muted)">⚠️ This citation was issued when sync latency was <strong style="color:var(--red)">${c.latency} minutes</strong>. At this delay, the officer's device did not reflect the most current permit approvals, resulting in a wrongful citation.</div>`:''}`;
-  openModal(`Citation ${id}`,body,`<button class="btn btn-ghost" onclick="closeModal()">Close</button>`);
+// Simulation
+function simApprove() {
+  var plate = 'RV-' + (Math.floor(Math.random() * 9000) + 1000);
+  var t = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+  var list = document.getElementById('permit-list');
+  var row = document.createElement('div');
+  row.className = 'permit-row';
+  row.innerHTML = '<span class="pr-plate">' + plate + '</span><span class="pr-info">Zone A · ' + t + '</span>';
+  list.appendChild(row);
+  logEv('✓ Permit approved for ' + plate + ' at ' + t + ' — saved to database', 'gr');
+  if (liveMode) {
+    setTimeout(function() { logEv('⚡ ParkSync: instant push to all 67 devices — visible in under 2 min', 'te'); }, 400);
+    toast('⚡ ' + plate + ' instantly visible on all officer devices', 'ok');
+  } else {
+    logEv('⏳ Batch mode: ' + plate + ' queued — officers cannot see for ' + bc + ' minutes', 'yw');
+    toast('⚠ ' + plate + ' will not reach devices for ' + bc + ' minutes', 'err');
+  }
 }
 
-// ── DISPUTES ──────────────────────────────────────────────────────
-function filterDisputes(){
-  const of=document.getElementById('disp-outcome-filter').value;
-  filteredDisps=DISPUTES.filter(d=> !of || d.outcome===of);
-  dPage=0; renderDisputes();
-}
-function dispPage(d){ dPage=Math.max(0,Math.min(Math.ceil(filteredDisps.length/dPerPage)-1,dPage+d)); renderDisputes(); }
-function renderDisputes(){
-  const slice=filteredDisps.slice(dPage*dPerPage,(dPage+1)*dPerPage);
-  const total=filteredDisps.length;
-  const pending=DISPUTES.filter(d=>d.outcome==='Pending').length;
-  document.getElementById('disp-count-label').textContent=`${total} disputes`;
-  document.getElementById('disp-pag-info').textContent=`${dPage*dPerPage+1}–${Math.min((dPage+1)*dPerPage,total)} of ${total}`;
-  document.getElementById('open-disputes').textContent=pending;
-  document.getElementById('d-open').textContent=pending;
-  document.getElementById('d-dismissed').textContent=DISPUTES.filter(d=>d.outcome==='Dismissed').length;
-  document.getElementById('d-upheld').textContent=DISPUTES.filter(d=>d.outcome==='Upheld').length;
-  const tb=document.getElementById('disputes-tbody');
-  if(!slice.length){tb.innerHTML=`<tr><td colspan="8" style="text-align:center;padding:32px;color:var(--muted)">No disputes found</td></tr>`;return;}
-  tb.innerHTML=slice.map(d=>`
-    <tr>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${d.id}</span></td>
-      <td><span style="font-family:'IBM Plex Mono',monospace;font-size:11px">${d.cid}</span></td>
-      <td>${d.zone}</td>
-      <td><span class="badge badge-${d.erroneous==='Yes'?'yes':'no'}">${d.erroneous}</span></td>
-      <td style="font-size:11px;color:var(--muted)">${d.date}</td>
-      <td style="font-family:'IBM Plex Mono',monospace;font-size:11px">${d.adminTime} min</td>
-      <td><span class="badge badge-${d.outcome==='Dismissed'?'dismissed':d.outcome==='Upheld'?'upheld':'pending-out'}">${d.outcome}</span></td>
-      <td>
-        ${d.outcome==='Pending'
-          ?`<button class="btn btn-sm btn-teal" onclick="resolveDispute('${d.id}','Dismissed')">Dismiss</button>
-             <button class="btn btn-sm btn-red" onclick="resolveDispute('${d.id}','Upheld')" style="margin-left:4px">Uphold</button>`
-          :`<button class="btn btn-ghost btn-sm" onclick="viewDispute('${d.id}')">View</button>`}
-      </td>
-    </tr>`).join('');
-}
-function resolveDispute(id, outcome){
-  const d=DISPUTES.find(x=>x.id===id);
-  if(!d||d.outcome!=='Pending'){toast('Already resolved','info');return;}
-  d.outcome=outcome;
-  renderDisputes();
-  toast(`Dispute ${id} ${outcome==='Dismissed'?'dismissed — citation was wrongful':'upheld — citation was valid'}`, outcome==='Dismissed'?'success':'info');
-}
-function viewDispute(id){
-  const d=DISPUTES.find(x=>x.id===id);
-  const c=CITATIONS.find(x=>x.id===d.cid);
-  const body=`
-    <div class="detail-row"><span class="detail-label">Dispute ID</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${d.id}</span></div>
-    <div class="detail-row"><span class="detail-label">Linked Citation</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${d.cid}</span></div>
-    <div class="detail-row"><span class="detail-label">Zone</span><span class="detail-val">${d.zone}</span></div>
-    <div class="detail-row"><span class="detail-label">Citation Erroneous</span><span class="detail-val"><span class="badge badge-${d.erroneous==='Yes'?'yes':'no'}">${d.erroneous}</span></span></div>
-    <div class="detail-row"><span class="detail-label">Filed Date</span><span class="detail-val">${d.date}</span></div>
-    <div class="detail-row"><span class="detail-label">Admin Handling Time</span><span class="detail-val" style="font-family:'IBM Plex Mono',monospace">${d.adminTime} minutes</span></div>
-    <div class="detail-row"><span class="detail-label">Outcome</span><span class="detail-val"><span class="badge badge-${d.outcome==='Dismissed'?'dismissed':d.outcome==='Upheld'?'upheld':'pending-out'}">${d.outcome}</span></span></div>
-    ${c?`<div class="detail-row"><span class="detail-label">Sync Latency</span><span class="detail-val"><span class="lat-pill ${latClass(c.latency)}">${c.latency} min at issue</span></span></div>`:''}`;
-  const footer=d.outcome==='Pending'
-    ?`<button class="btn btn-teal" onclick="resolveDispute('${d.id}','Dismissed');closeModal()">Dismiss — Wrongful</button>
-       <button class="btn btn-red" onclick="resolveDispute('${d.id}','Upheld');closeModal()">Uphold — Valid</button>`
-    :`<button class="btn btn-ghost" onclick="closeModal()">Close</button>`;
-  openModal(`Dispute ${id}`,body,footer);
+function simOfficer() {
+  var t = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+  logEv('👮 Officer checks plate RV-2841 at ' + t, 'bl');
+  if (liveMode) {
+    setTimeout(function() { logEv('✅ Device shows: RV-2841 — Zone A permit VALID', 'gr'); }, 400);
+    setTimeout(function() { logEv('✓ No citation issued — ParkSync prevented a wrongful ticket', 'gr'); }, 900);
+    toast('✅ Officer sees valid permit — no citation issued!', 'ok');
+  } else {
+    setTimeout(function() { logEv('❌ Device shows: RV-2841 — NO PERMIT (data is ' + bc + '+ min old)', 're'); }, 400);
+    setTimeout(function() { logEv('⚠ Wrongful citation issued — resident will dispute this', 're'); }, 900);
+    setTimeout(function() { logEv('📋 Dispute filed — admin staff must spend ~20 min resolving', 'yw'); }, 1400);
+    toast('❌ Wrongful citation issued — the sync gap caused this!', 'err');
+  }
 }
 
-// ── SYNC SIMULATION ───────────────────────────────────────────────
-let syncActive=false;
-function simulateSync(){
-  if(syncActive)return;
-  syncActive=true;
-  toast('⚡ ParkSync real-time push initiated — updating all devices...','info');
+function clearLog() {
+  var log = document.getElementById('evlog');
+  if (log) log.innerHTML = '<div class="ev"><span class="ev-t">--:--</span><span class="ev-m c-wh">Log cleared. Use buttons above to simulate events.</span></div>';
+}
 
-  const zones=['dt','rs','cm','un'];
-  const labels=['104 min','99 min','108 min','95 min'];
-  let step=0;
+function logEv(msg, cls) {
+  var log = document.getElementById('evlog');
+  if (!log) return;
+  var t = new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+  var row = document.createElement('div');
+  row.className = 'ev';
+  row.innerHTML = '<span class="ev-t">' + t + '</span><span class="ev-m c-' + cls + '">' + msg + '</span>';
+  log.appendChild(row);
+  log.scrollTop = log.scrollHeight;
+}
 
-  const interval=setInterval(()=>{
-    if(step>=zones.length){
-      clearInterval(interval);
-      syncActive=false;
-      // Update dashboard
-      document.getElementById('dash-ecr').textContent='~5%';
-      document.getElementById('dash-ecr').style.color='var(--teal)';
-      document.getElementById('dash-latency').textContent='<2';
-      document.getElementById('dash-latency').style.color='var(--teal)';
-      document.getElementById('sync-alert').innerHTML='✅ ParkSync active — all devices synced in real time. Avg delay: <strong style="color:var(--teal)">&lt;2 minutes</strong>. Erroneous citation risk reduced from 35.9% to ~5%.';
-      document.getElementById('sync-alert').style.background='rgba(46,204,122,0.08)';
-      document.getElementById('sync-alert').style.borderColor='rgba(46,204,122,0.3)';
-      document.getElementById('sync-alert').style.borderLeftColor='var(--green)';
-      toast('✅ All 67 officer devices synced — avg latency: &lt;2 minutes');
-      return;
+// Map
+function renderMap() {
+  Object.keys(ZN).forEach(function(z) {
+    var g = document.getElementById('grid-' + z);
+    if (!g) return;
+    g.innerHTML = '';
+    var cnt = 0;
+    for (var i = 1; i <= ZN[z]; i++) {
+      var k = z + i, st = slots[k];
+      if (!st) cnt++;
+      var el = document.createElement('div');
+      var cls = st === 'occ' ? 'occ' : st === 'mine' ? 'mine' : k === selSlot ? 'sel' : 'avail';
+      el.className = 'slot ' + cls;
+      el.innerHTML = '<div class="slot-id">' + k + '</div><div class="slot-ico">' + (st === 'occ' ? '🚗' : st === 'mine' ? '🚙' : '🟢') + '</div>';
+      if (!st) {
+        (function(key, zone) {
+          el.addEventListener('click', function() { pickSlot(key, zone); });
+        })(k, z);
+      }
+      g.appendChild(el);
     }
-    const z=zones[step];
-    // Update full sync page bars
-    const bar=document.getElementById('sync-'+z);
-    const delay=document.getElementById('sync-'+z+'-delay');
-    const status=document.getElementById('sync-'+z+'-status');
-    if(bar){ bar.style.width='98%'; bar.style.background='var(--green)'; }
-    if(delay){ delay.textContent='<2 min'; delay.style.color='var(--teal)'; }
-    if(status){ status.textContent='LIVE'; status.style.color='var(--green)'; }
-    // Update mini dashboard bars
-    const mbar=document.getElementById('sb-'+z);
-    const mtime=document.getElementById('si-'+z+'-t');
-    const mstat=document.getElementById('si-'+z+'-s');
-    if(mbar){ mbar.style.width='98%'; mbar.style.background='var(--green)'; }
-    if(mtime){ mtime.textContent='<2 min'; }
-    if(mstat){ mstat.textContent='LIVE'; mstat.style.color='var(--green)'; }
-    step++;
-  },700);
+    var ce = document.getElementById('zc-' + z);
+    if (ce) ce.textContent = cnt + '/' + ZN[z];
+  });
+  updCounts();
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
-renderDashPending();
-filterPermits();
-filterCitations();
-filterDisputes();
+function pickSlot(k, z) {
+  selSlot = k; renderMap();
+  document.getElementById('no-sel').classList.add('hid');
+  document.getElementById('sel-card').classList.remove('hid');
+  document.getElementById('sel-num').textContent = k;
+  document.getElementById('sel-zone').textContent = 'Zone ' + z + ' Parking';
+  updPrice();
+  toast('Slot ' + k + ' selected — fill in your details', 'info');
+}
 
-// Set today as default for new permit
-const today=new Date().toISOString().split('T')[0];
-document.getElementById('np-start').value=today;
-const nextYear=new Date(); nextYear.setFullYear(nextYear.getFullYear()+1);
-document.getElementById('np-end').value=nextYear.toISOString().split('T')[0];
+function updPrice() {
+  var d = parseInt(document.getElementById('dur-sel').value);
+  var p = (d / 60 * 5).toFixed(2);
+  document.getElementById('ps-slot').textContent = selSlot || '—';
+  document.getElementById('ps-dur').textContent = d < 60 ? d + ' min' : (d / 60) + ' hr';
+  document.getElementById('ps-total').textContent = '$' + p;
+}
+
+// Zone filter tabs
+document.getElementById('ztabs').addEventListener('click', function(e) {
+  var btn = e.target;
+  if (!btn.classList.contains('ztab')) return;
+  var zone = btn.getAttribute('data-zone');
+  document.querySelectorAll('.ztab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  Object.keys(ZN).forEach(function(z) {
+    var w = document.getElementById('zw-' + z);
+    if (w) w.style.display = (zone === 'all' || zone === z) ? 'block' : 'none';
+  });
+});
+
+// Booking
+function initBook() {
+  if (!selSlot) { toast('Please select a slot from the map first', 'err'); return; }
+  var v = document.getElementById('vin').value.trim();
+  var n = document.getElementById('pname').value.trim();
+  if (!v) { toast('Please enter a vehicle plate number', 'err'); return; }
+  if (!n) { toast('Please enter the permit holder name', 'err'); return; }
+  var d = parseInt(document.getElementById('dur-sel').value);
+  var p = (d / 60 * 5).toFixed(2);
+  var dl = d < 60 ? d + ' minutes' : (d / 60) + ' hour(s)';
+  document.getElementById('cm-slot').textContent = selSlot;
+  document.getElementById('cm-zone').textContent = 'Zone ' + selSlot[0] + ' Parking';
+  document.getElementById('cm-veh').textContent = v.toUpperCase();
+  document.getElementById('cm-type').textContent = document.getElementById('vtype').value;
+  document.getElementById('cm-name').textContent = n;
+  document.getElementById('cm-dur').textContent = dl;
+  document.getElementById('cm-total').textContent = '$' + p;
+  document.getElementById('m-confirm').classList.remove('hid');
+}
+
+function doBook() {
+  closeM('m-confirm');
+  var slot = selSlot;
+  var v = document.getElementById('vin').value.trim().toUpperCase();
+  var n = document.getElementById('pname').value.trim();
+  var vt = document.getElementById('vtype').value;
+  var d = parseInt(document.getElementById('dur-sel').value);
+  var p = (d / 60 * 5).toFixed(2);
+  var now = new Date(), end = new Date(now.getTime() + d * 60000);
+  var fmt = function(dt) { return dt.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}); };
+  var dl = d < 60 ? d + ' min' : (d / 60) + ' hr(s)';
+  slots[slot] = 'mine'; selSlot = null; renderMap();
+  document.getElementById('no-sel').classList.remove('hid');
+  document.getElementById('sel-card').classList.add('hid');
+  session = {slot:slot, v:v, n:n, vt:vt, d:d, p:p, now:now, end:end, total:d*60, remain:d*60};
+  bookings.unshift({slot:slot, v:v, n:n, vt:vt, d:d, p:p, now:now, end:end, status:'active'});
+  // Success modal
+  document.getElementById('s-sub').textContent = 'Slot ' + slot + ' reserved for ' + n;
+  document.getElementById('sm-slot').textContent = slot;
+  document.getElementById('sm-veh').textContent = v;
+  document.getElementById('sm-dur').textContent = dl;
+  document.getElementById('sm-start').textContent = fmt(now);
+  document.getElementById('sm-end').textContent = fmt(end);
+  document.getElementById('sm-paid').textContent = '$' + p;
+  document.getElementById('m-success').classList.remove('hid');
+  // Active page
+  document.getElementById('no-sess').classList.add('hid');
+  document.getElementById('sess-detail').classList.remove('hid');
+  document.getElementById('ai-slot').textContent = slot;
+  document.getElementById('ai-veh').textContent = v;
+  document.getElementById('ai-amt').textContent = '$' + p;
+  document.getElementById('ai-zone').textContent = 'Zone ' + slot[0];
+  document.getElementById('ai-type').textContent = vt;
+  document.getElementById('ai-start').textContent = fmt(now);
+  document.getElementById('ai-end').textContent = fmt(end);
+  // Dashboard banner
+  document.getElementById('dash-banner').classList.remove('hid');
+  document.getElementById('dash-slotlbl').textContent = 'Slot ' + slot + ' · ' + v;
+  document.getElementById('dash-vehlbl').textContent = n + ' · ' + vt;
+  document.getElementById('nav-act').classList.remove('hid');
+  document.getElementById('vin').value = ''; document.getElementById('pname').value = '';
+  startTimer(); updDash(); updPrice();
+  logEv('🅿️ Booking: Slot ' + slot + ' reserved for ' + v + ' (' + d + ' min)', 'or');
+  if (liveMode) logEv('⚡ Permit instantly on all officer devices — zero citation risk', 'gr');
+  else logEv('⏳ Permit queued for batch upload in ~' + bc + ' min', 'yw');
+  toast('🎉 Booking confirmed! Slot ' + slot + ' reserved', 'ok');
+}
+
+// Timer
+function p2(n) { return String(n).padStart(2, '0'); }
+
+function startTimer() {
+  if (sInt) clearInterval(sInt);
+  sInt = setInterval(function() {
+    if (!session) return;
+    session.remain--;
+    var m = Math.floor(session.remain / 60), s = session.remain % 60;
+    var str = p2(m) + ':' + p2(s), pct = (session.remain / session.total * 100) + '%';
+    ['big-timer', 'dash-timer', 'sm-timer'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.textContent = str;
+    });
+    ['act-fill', 'sm-fill'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.style.width = pct;
+    });
+    var sub = document.getElementById('act-sub');
+    if (sub) sub.textContent = (m > 0 ? m + 'm ' : '') + s + 's remaining';
+    if (session.remain <= 0) { clearInterval(sInt); toast('⏰ Session expired — slot released', 'info'); endClean(); }
+  }, 1000);
+}
+
+function endSession() { if (!session) return; toast('Session ended — slot ' + session.slot + ' released', 'info'); endClean(); }
+
+function endClean() {
+  if (!session) return;
+  slots[session.slot] = null;
+  if (bookings.length > 0) bookings[0].status = 'completed';
+  clearInterval(sInt); session = null;
+  document.getElementById('nav-act').classList.add('hid');
+  document.getElementById('no-sess').classList.remove('hid');
+  document.getElementById('sess-detail').classList.add('hid');
+  document.getElementById('dash-banner').classList.add('hid');
+  renderMap(); updDash(); renderHist();
+}
+
+function gotoActive() { closeM('m-success'); goTo('active'); }
+
+// Dashboard
+function updCounts() {
+  var cnt = {A:0, B:0, C:0, H:0};
+  Object.keys(slots).forEach(function(k) { if (!slots[k]) cnt[k[0]]++; });
+  var tot = cnt.A + cnt.B + cnt.C + cnt.H;
+  document.getElementById('d-avail').textContent = tot;
+  document.getElementById('nav-avail').textContent = tot;
+  document.getElementById('avail-badge').textContent = tot + ' Available';
+  document.getElementById('occ-badge').textContent = (34 - tot) + ' Occupied';
+  document.getElementById('full-alert').classList.toggle('hid', tot > 0);
+  document.getElementById('d-za').textContent = cnt.A + '/10';
+  document.getElementById('d-zb').textContent = cnt.B + '/10';
+  document.getElementById('d-zc').textContent = cnt.C + '/10';
+  document.getElementById('d-zh').textContent = cnt.H + '/4';
+}
+
+function updDash() {
+  var act = bookings.filter(function(b) { return b.status === 'active'; }).length;
+  document.getElementById('d-books').textContent = bookings.length;
+  document.getElementById('d-books-d').textContent = 'Active sessions: ' + act;
+  document.getElementById('d-avail-d').textContent = 'of 34 total today';
+  updCounts();
+  var fmt = function(dt) { return dt.toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'}); };
+  var tb = document.getElementById('d-tbody');
+  if (!bookings.length) { tb.innerHTML = '<tr><td colspan="6" style="padding:28px;text-align:center;color:var(--mut)">No bookings yet</td></tr>'; return; }
+  tb.innerHTML = bookings.slice(0, 8).map(function(b) {
+    var stBadge = b.status === 'active' ? 'bg-or' : 'bg-te';
+    return '<tr><td style="font-family:\'JetBrains Mono\',monospace;font-weight:700;color:var(--or)">' + b.slot + '</td>' +
+      '<td style="font-family:\'JetBrains Mono\',monospace;color:#fff">' + b.v + '</td>' +
+      '<td style="color:var(--txt2)">Zone ' + b.slot[0] + '</td>' +
+      '<td style="color:var(--txt2)">' + (b.d < 60 ? b.d + ' min' : (b.d / 60) + ' hr') + '</td>' +
+      '<td style="font-size:12px;color:var(--mut)">' + fmt(b.now) + '</td>' +
+      '<td><span class="badge ' + stBadge + '">' + b.status.toUpperCase() + '</span></td></tr>';
+  }).join('');
+}
+
+function renderHist() {
+  var list = document.getElementById('hist-list'), empty = document.getElementById('hist-empty');
+  if (!bookings.length) { empty.style.display = 'block'; list.innerHTML = ''; return; }
+  empty.style.display = 'none';
+  var fmt = function(dt) { return dt.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'}); };
+  list.innerHTML = bookings.map(function(b) {
+    var stBadge = b.status === 'active' ? 'bg-or' : 'bg-te';
+    return '<div class="hitem"><div class="hico">🅿️</div>' +
+      '<div style="flex:1"><div class="hslot">Slot ' + b.slot + ' — ' + b.v + '</div>' +
+      '<div class="hdet" style="margin-top:3px">Zone ' + b.slot[0] + ' · ' + b.vt + ' · ' + b.n + ' · ' + (b.d < 60 ? b.d + ' min' : (b.d / 60) + ' hr') + '</div>' +
+      '<div class="hdet" style="margin-top:2px">🕐 ' + fmt(b.now) + ' → ' + fmt(b.end) + '</div></div>' +
+      '<div style="text-align:right;flex-shrink:0"><div style="font-family:\'JetBrains Mono\',monospace;font-weight:700;color:var(--or);font-size:15px;margin-bottom:8px">$' + b.p + '</div>' +
+      '<span class="badge ' + stBadge + '">' + (b.status === 'active' ? 'ACTIVE' : 'COMPLETED') + '</span></div></div>';
+  }).join('');
+}
+
+// Permit approve
+function approvePerm(btn) {
+  var tr = btn.closest('tr');
+  tr.querySelectorAll('td')[4].innerHTML = '<span class="badge bg-gr">Approved</span>';
+  btn.textContent = '✓ Approved'; btn.disabled = true; btn.className = 'btn btn-gl btn-sm';
+  if (liveMode) { toast('⚡ RV-9920 instantly pushed to all 67 officer devices', 'ok'); logEv('✓ RV-9920 approved + instant push to all devices in under 2 min', 'gr'); }
+  else { toast('Permit approved — reaches devices in next batch upload', 'info'); logEv('⏳ RV-9920 approved — batch upload in ~' + bc + ' min', 'yw'); }
+}
+
+// Dismiss dispute
+function dismissDisp(btn) {
+  var item = btn.closest('.hitem');
+  btn.textContent = '✓ Dismissed'; btn.disabled = true; btn.className = 'btn btn-gl btn-sm';
+  item.style.opacity = '0.55';
+  var cur = parseInt(document.getElementById('nav-disp').textContent) || 0;
+  document.getElementById('nav-disp').textContent = Math.max(0, cur - 1);
+  toast('Dispute dismissed — citation confirmed wrongful (sync gap caused this)', 'info');
+  logEv('⚖️ Dispute dismissed — wrongful citation caused by batch upload delay', 'yw');
+}
+
+// Modal
+function closeM(id) { document.getElementById(id).classList.add('hid'); }
+document.querySelectorAll('.overlay').forEach(function(o) {
+  o.addEventListener('click', function(e) { if (e.target === o) o.classList.add('hid'); });
+});
+
+// Toast
+function toast(msg, type) {
+  type = type || 'ok';
+  var colors = {ok:'var(--gr)', err:'var(--re)', info:'var(--bl)'};
+  var icons = {ok:'✅', err:'❌', info:'ℹ️'};
+  var t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.style.borderLeftColor = colors[type] || colors.ok;
+  t.innerHTML = '<span>' + (icons[type] || icons.ok) + '</span><span>' + msg + '</span>';
+  var wrap = document.getElementById('toast-wrap');
+  wrap.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; t.style.transition = 'opacity .4s'; }, 3200);
+  setTimeout(function() { if (t.parentNode) t.parentNode.removeChild(t); }, 3700);
+}
+
+// Init
+renderMap(); updDash(); updPrice();
 </script>
 </body>
 </html>
